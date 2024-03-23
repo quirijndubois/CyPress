@@ -1,7 +1,11 @@
 #include <stdio.h>
 
-int main(int argc, char* argv[argc + 1]) {
-  puts("Hello, World!");
+#define DEBUG
 
-  return 0;
+int main(int argc, char* argv[argc + 1]) {
+#ifdef DEBUG
+    puts("Hello, World!");
+#endif
+
+    return 0;
 }
