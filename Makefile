@@ -1,3 +1,4 @@
+source := main.c
 exeName := rooster
 gccFlags := -fdiagnostics-color=always -Wall
 
@@ -6,5 +7,5 @@ run: ${exeName}.exe
 
 comp: ${exeName}.exe
 
-rooster.exe: main.c
-	gcc ${gccFlags} main.c -o ${exeName}
+rooster.exe: ${source}
+	gcc ${gccFlags} ${source} -o ${exeName}
