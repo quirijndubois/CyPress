@@ -5,5 +5,13 @@ enum ObjectType {
     OBJ_catalog,
 };
 
-struct PDFObject;
-struct PDFDocument;
+struct PDFObject {
+    int type;
+    int index;
+    int generation;
+
+};
+
+struct PDFDocument {
+    void;
+}

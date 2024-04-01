@@ -1,14 +1,9 @@
-#include <stdio.h>
-
 #include "text_pdf_conversion.h"
 
-enum OBJ_type;
-struct PDF_object;
-struct PDF_file;
+#include <stdio.h>
 
 int main(void) {
-    FILE* source = fopen("test.pdf", "r");
-    if(copy_file(source, "test.txt")) {
+    if(copy_file("pdf_flatedecode\\main.pdf", "pdf_flatedecode\\main.txt")) {
         puts("Copy was succesful.");
     } else {
         puts("Copy failed.");
