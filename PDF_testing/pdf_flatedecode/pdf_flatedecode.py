@@ -12,7 +12,7 @@
 import re
 import zlib
 
-pdf = open("C:\\Users\\pieterteb\\DuBaTeX\\PDF_testing\\pdf_flatedecode\\huiswerk_6.pdf", "rb").read()
+pdf = open("C:\\Users\\pieterteb\\DuBaTeX\\PDF_testing\\pdf_flatedecode\\main.pdf", "rb").read()
 stream = re.compile(rb'.*?FlateDecode.*?stream(.*?)endstream', re.S)
 
 for s in stream.findall(pdf):
