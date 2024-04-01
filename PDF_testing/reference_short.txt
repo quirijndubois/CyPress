@@ -1,0 +1,141 @@
+White-space characters:
+
+All white-space characters are equivalent, except
+in comments, strings, and streams. In all other contexts, PDF treats any sequence
+of consecutive white-space characters as one character.
+
+
+    White-space Characters
+Decimal     Hexadecimal     Name
+0           00              Null (NUL)
+9           09              Tab (HT), horizontal tab
+10          0A              Line Feed (LF), new line: moves cursor to next line
+12          0C              Form Feed (FF), new page
+13          0D              Carriage Return (CR), moves cursor to start of current line
+32          20              Space (SP)
+
+
+The carriage return (CR) and line feed (LF) characters, also called newline
+characters, are treated as end-of-line (EOL) markers. The combination of a
+carriage return followed immediately by a line feed is treated as one EOL marker.
+For the most part, EOL markers are treated the same as any other white-space
+characters. However, sometimes an EOL marker is required or recommended—
+that is, the following token must appear at the beginning of a line.
+
+
+Delimeter characters:
+
+The delimiter characters (, ), <, >, [, ], {, }, /, and % are special. They delimit
+syntactic entities such as strings, arrays, names, and comments. Any of these
+characters terminates the entity preceding it and is not included in the entity.
+
+
+All characters except the white-space characters and delimiters are referred to as
+regular characters. These characters include 8-bit binary characters that are
+outside the ASCII character set. A sequence of consecutive regular characters
+comprises a single token.
+
+
+Objects:
+
+PDF supports eight basic types of objects:
+• Boolean values
+• Integer and real numbers
+• Strings
+• Names
+• Arrays
+• Dictionaries
+• Streams
+• The null object
+Objects may be labeled so that they can be referred to by other objects. A labeled
+object is called an indirect object.
+
+
+See page 62 for stream object parameters.
+
+
+PDF structure:
+
+- A one-line header identifying the version of the PDF specification to which the
+file conforms
+
+- A body containing the objects that make up the document contained in the file
+
+- A cross-reference table containing information about the indirect objects in the
+file (see page 93)
+
+- A trailer giving the location of the cross-reference table and of certain special
+objects within the body of the file
+
+
+Cross-reference examples:
+
+Exapmple 3.5 shows a cross-reference section consisting of a single subsection
+with six entries: four that are in use (objects number 1, 2, 4, and 5) and two that
+SyntaxC H A P T E R 3 96
+are free (objects number 0 and 3). Object number 3 has been deleted, and the
+next object created with that object number is given a generation number of 7.
+
+Example 3.5
+
+xref
+0 6
+0000000003 65535 f
+0000000017 00000 n
+0000000081 00000 n
+0000000000 00007 f
+0000000331 00000 n
+0000000409 00000 n
+
+Example 3.6 shows a cross-reference section with four subsections, containing a
+total of five entries. The first subsection contains one entry, for object number 0,
+which is free. The second subsection contains one entry, for object number 3,
+which is in use. The third subsection contains two entries, for objects number 23
+and 24, both of which are in use. Object number 23 has been reused, as can be
+seen from the fact that it has a generation number of 2. The fourth subsection
+contains one entry, for object number 30, which is in use.
+
+Example 3.6
+
+xref
+0 1
+0000000000 65535 f
+3 1
+0000025325 00000 n
+23 2
+0000025518 00002 n
+0000025635 00000 n
+30 1
+0000025777 00000 n
+
+See Section G.6, “Updating Example,” for a more extensive example of the
+structure of a PDF file that has been updated several times.
+
+
+The trailer: Table 3.13 for parameters
+
+The trailer of a PDF file enables an application reading the file to quickly find the
+cross-reference table and certain special objects. Applications should read a PDF
+File StructureSE CT ION 3.4 97
+file from its end. The last line of the file contains only the end-of-file marker,
+%%EOF.
+
+Example 3.7 shows an example trailer for a file that has never been updated (as
+indicated by the absence of a Prev entry in the trailer dictionary).
+
+Example 3.7
+
+trailer
+<< /Size 22
+/Root 2 0 R
+/Info 1 0 R
+/ID [ < 81b14aafa313db63dbd6f981e49f94f4 >
+< 81b14aafa313db63dbd6f981e49f94f4 >
+]
+>>
+startxref
+18799
+%%EOF
+
+
+IMPORTANT: Document structure (page 137)

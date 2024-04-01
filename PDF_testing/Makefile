@@ -1,4 +1,4 @@
-source := main.c
+source := main.c text_pdf_conversion.c
 exeName := rooster
 gccFlags := -fdiagnostics-color=always -Wall
 
