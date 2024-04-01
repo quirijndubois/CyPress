@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <string.h>
 
 #include "text_pdf_conversion.h"
 
@@ -9,7 +8,11 @@ struct PDF_file;
 
 int main(void) {
     FILE* source = fopen("test.pdf", "r");
-    copy_file(source, "test.txt");
+    if(copy_file(source, "test.txt")) {
+        puts("Copy was succesful.");
+    } else {
+        puts("Copy failed.");
+    }
 
     return 0;
 }

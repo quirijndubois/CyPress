@@ -1,3 +1,5 @@
+# From: https://gist.github.com/averagesecurityguy/ba8d9ed3c59c1deffbd1390dafa5a3c2
+
 #!/usr/bin/env python3
 # This script is designed to do one thing and one thing only. It will find each
 # of the FlateDecode streams in a PDF document using a regular expression,
