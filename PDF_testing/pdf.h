@@ -3,13 +3,13 @@
 
 enum ObjectType;
 
-struct PDFInfo {
+struct PDF_info {
     void;
 };
 
-struct PDFObject;
-struct PDFDocument;
+struct PDF_object;
+struct PDF_document;
 
-#define PDF_VERSION "1.7"           // Should be determined automatically, need more research for that.
+#define PDF_VERSION "1.7" // Should be determined automatically, need more research for that.
 
 #endif

@@ -1,6 +1,6 @@
-source := main.c text_pdf_conversion.c
+source := main.c
 exeName := rooster
-gccFlags := -fdiagnostics-color=always -Wall
+gccFlags := -fdiagnostics-color=always -Wall -Wextra -Wpedantic -Werror -Wshadow -Wformat=2 -Wconversion -Wunused-parameter
 
 run: ${exeName}.exe
 	.\${exeName}.exe
