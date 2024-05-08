@@ -17,7 +17,7 @@ struct PDF_object {
 };
 
 
-int construct_pdf(const char* document_name, const char* destination_path, PDF_document* pdf_doc) {
+int construct_pdf(const char* const document_name, const char* const destination_path, PDF_document* const pdf_doc) {
     size_t destination_length = strlen(destination_path);
     size_t path_length = strlen(document_name) + destination_length + 6; // 6 is added to account for the '\' character between destination_path and document_name, the ".pdf" extension and the '\0' character.
     char* file_path = malloc(path_length * sizeof(char));
@@ -32,18 +32,11 @@ int construct_pdf(const char* document_name, const char* destination_path, PDF_d
     FILE* fileptr = fopen(file_path, "wb"); // The file is written in binary since pdf requires byte values which can be misinterpreted as characters.
 
     // Write header of pdf.
-    size_t header_line_length = 7 + strlen(PDF_VERSION); // 7 here indicates the length of "%PDF-", the '\n' character, and the terminating character '\0'.
-    char* header_line = malloc(header_line_length * sizeof(char)); 
-    strcpy(header_line, "%PDF-");
-    strcat(header_line, PDF_VERSION);
-    strcat(header_line, "\n");
-    fwrite(header_line, sizeof(char), header_line_length - 1, fileptr);
-    free(header_line);
-    fwrite(COMMENT_LINE, sizeof(char), sizeof(COMMENT_LINE), fileptr);
-
-    free(pdf_doc);
+    fprintf(fileptr, "%%PDF-%s\n", PDF_VERSION);
+    fprintf(fileptr, "%%%s\n", COMMENT_LINE);
 
     free(file_path);
+    free(pdf_doc);
 
     fwrite("%%EOF\n", sizeof(char), 6, fileptr);
     fclose(fileptr);
