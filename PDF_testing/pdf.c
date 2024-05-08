@@ -44,6 +44,8 @@ int construct_pdf(const char* document_name, const char* destination_path, PDF_d
     free(pdf_doc);
 
     free(file_path);
+
+    fwrite("%%EOF\n", sizeof(char), 6, fileptr);
     fclose(fileptr);
 
     return 0;
