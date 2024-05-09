@@ -2,25 +2,32 @@
 %ÄÅÇÉ
 1 0 object
 <<
-/Title (Test)
+/Title (Hello, World!)
 /Author (Pieter)
 /Subject (Test)
-/Creator (CyPress)
-/Producer (CyPress)
-/CreationDate (D:20240509134923+01'00')
+/Creator (CyPress Compiler)
+/Producer (CyPress Parser)
+/CreationDate (D:20240509191541+01'00')
 >>
 endobject
 2 0 object
 <<
 /Type /Pages
-/Kids [
-/Count 0
+/Kids [4 0 R]
+/Count 1
 >>
 endobject
 3 0 object
 <<
 /Type /Catalog
 /Pages 2 0 R
+>>
+endobject
+4 0 object
+<<
+/Type /Page
+/Parent 2 0 R
+/MediaBox [0 0 595.275574 841.889771]
 >>
 endobject
 %%EOF

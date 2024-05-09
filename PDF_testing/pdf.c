@@ -15,14 +15,16 @@ enum OBJType {
     OBJ_count,
 };
 
-struct object_array {
+struct PDF_object_array {
     int object_count;
     int array_size;
     struct PDF_object** objects;
 };
 
 struct PDF_object_page_leaf {
-    struct PDF_object* parent;
+    float width;
+    float height;
+    struct PDF_object_array contents;
 };
 
 struct PDF_object {
@@ -35,19 +37,19 @@ struct PDF_object {
 
     union {
         struct PDF_info info;
-        struct PDF_object_page_leaf;
+        struct PDF_object_page_leaf page_leaf;
     };
 };
 
 struct PDF_doc {
-    struct object_array* objects;
+    struct PDF_object_array objects;
 
     struct PDF_object* last_objects[OBJ_count];
     struct PDF_object* first_objects[OBJ_count];
 };
 
 
-static int pdf_object_array_append(struct object_array* array, struct PDF_object* object) {
+static int pdf_object_array_append(struct PDF_object_array* array, struct PDF_object* object) {
     ++array->object_count;
     if (array->object_count == array->array_size + 1) {
         if (!array->array_size) {
@@ -63,12 +65,12 @@ static int pdf_object_array_append(struct object_array* array, struct PDF_object
     return array->object_count - 1;
 }
 
-static int pdf_object_array_size(struct object_array* array) {
-    return array->object_count;
+static int pdf_object_array_size(struct PDF_object_array array) {
+    return array.object_count;
 }
 
-static struct PDF_object* pdf_object_array_at_index(struct object_array* array, int index) {
-    return array->objects[index];
+static struct PDF_object* pdf_object_array_at_index(struct PDF_object_array array, int index) {
+    return array.objects[index];
 }
 
 static struct PDF_object* pdf_get_first_object(struct PDF_doc* pdf, int type) {
@@ -103,24 +105,24 @@ static char* pdf_create_date() {
 struct PDF_info* pdf_create_info(const char* title, const char* author, const char* subject, const char* creator, const char* producer) {
     struct PDF_info* info = calloc(1, sizeof(struct PDF_info));
     if (title) {
-        sprintf_s(info->title, INFO_CHAR_LIMIT, "%s", title);
+        sprintf_s(info->title, PDF_INFO_CHAR_LIMIT, "%s", title);
     }
     if (author) {
-        sprintf_s(info->author, INFO_CHAR_LIMIT, "%s", author);
+        sprintf_s(info->author, PDF_INFO_CHAR_LIMIT, "%s", author);
     }
     if (subject) {
-        sprintf_s(info->subject, INFO_CHAR_LIMIT, "%s", subject);
+        sprintf_s(info->subject, PDF_INFO_CHAR_LIMIT, "%s", subject);
     }
     if (creator) {
-        sprintf_s(info->creator, INFO_CHAR_LIMIT, "%s", creator);
+        sprintf_s(info->creator, PDF_INFO_CHAR_LIMIT, "%s", creator);
     }
     if (producer) {
-        sprintf_s(info->producer, INFO_CHAR_LIMIT, "%s", producer);
+        sprintf_s(info->producer, PDF_INFO_CHAR_LIMIT, "%s", producer);
     }
 
     char* date = pdf_create_date();
     if (date) {
-        sprintf_s(info->creation_date, INFO_CHAR_LIMIT, "%s", date);
+        sprintf_s(info->creation_date, PDF_INFO_CHAR_LIMIT, "%s", date);
     }
     free(date);
 
@@ -128,7 +130,7 @@ struct PDF_info* pdf_create_info(const char* title, const char* author, const ch
 }
 
 static void pdf_append_object(struct PDF_doc* pdf, struct PDF_object* object) {
-    int index = pdf_object_array_append(pdf->objects, object);
+    int index = pdf_object_array_append(&pdf->objects, object);
     object->object_num = index;
 
     if (pdf->last_objects[object->type]) {
@@ -165,6 +167,15 @@ static struct PDF_object* pdf_add_catalog(struct PDF_doc* pdf) {
     return catalog;
 }
 
+struct PDF_object* pdf_add_page(struct PDF_doc* pdf, float width, float height) {
+    struct PDF_object* page_leaf = pdf_add_object(pdf, OBJ_page_leaf);
+    page_leaf->page_leaf.width = width;
+    page_leaf->page_leaf.height = height;
+    page_leaf->page_leaf.contents = (struct PDF_object_array){ 0 };
+
+    return page_leaf;
+}
+
 static struct PDF_object* pdf_add_page_root(struct PDF_doc* pdf) {
     struct PDF_object* page_root = pdf_add_object(pdf, OBJ_page_root);
 
@@ -173,7 +184,6 @@ static struct PDF_object* pdf_add_page_root(struct PDF_doc* pdf) {
 
 struct PDF_doc* pdf_create(struct PDF_info* info) {
     struct PDF_doc* pdf = calloc(1, sizeof(struct PDF_doc));
-    pdf->objects = calloc(1, sizeof(struct object_array));
     
     // Object indexing should start at 1.
     pdf_add_object(pdf, OBJ_null);
@@ -189,52 +199,86 @@ struct PDF_doc* pdf_create(struct PDF_info* info) {
 
 static void pdf_construct_catalog(FILE* fp, struct PDF_doc* pdf) {
     // Begin dictionary.
-    fprintf(fp, "<<\n");
+    fprintf(fp, "<<\r\n");
 
     // Type entry, this object describes a catalog.
-    fprintf(fp, "/Type /Catalog\n");
+    fprintf(fp, "/Type /Catalog\r\n");
 
     // Page entry.
     struct PDF_object* page_root = pdf_get_first_object(pdf, OBJ_page_root);
-    fprintf(fp, "/Pages %d 0 R\n", page_root->object_num);
+    fprintf(fp, "/Pages %d 0 R\r\n", page_root->object_num);
 
     // End dictionary.
-    fprintf(fp, ">>\n");
+    fprintf(fp, ">>\r\n");
 }
 
 static void pdf_construct_info(FILE* fp, struct PDF_object* info) {
     // Begin dictionary.
-    fprintf(fp, "<<\n");
+    fprintf(fp, "<<\r\n");
 
     if (info->info.title[0]) {
-        fprintf(fp, "/Title (%s)\n", info->info.title);
+        fprintf(fp, "/Title (%s)\r\n", info->info.title);
     }
     if (info->info.author[0]) {
-        fprintf(fp, "/Author (%s)\n", info->info.author);
+        fprintf(fp, "/Author (%s)\r\n", info->info.author);
     }
     if (info->info.subject[0]) {
-        fprintf(fp, "/Subject (%s)\n", info->info.subject);
+        fprintf(fp, "/Subject (%s)\r\n", info->info.subject);
     }
     if (info->info.creator[0]) {
-        fprintf(fp, "/Creator (%s)\n", info->info.creator);
+        fprintf(fp, "/Creator (%s)\r\n", info->info.creator);
     }
     if (info->info.producer[0]) {
-        fprintf(fp, "/Producer (%s)\n", info->info.producer);
+        fprintf(fp, "/Producer (%s)\r\n", info->info.producer);
     }
     if (info->info.creation_date[0]) {
-        fprintf(fp, "/CreationDate (%s)\n", info->info.creation_date);
+        fprintf(fp, "/CreationDate (%s)\r\n", info->info.creation_date);
     }
 
     // End dictionary.
-    fprintf(fp, ">>\n");
+    fprintf(fp, ">>\r\n");
+}
+
+static void pdf_construct_page_leaf(FILE* fp, struct PDF_doc* pdf, struct PDF_object* page_leaf) {
+    fprintf(fp, "<<\r\n"
+                "/Type /Page\r\n"
+                "/Parent %d 0 R\r\n"
+                "/MediaBox [0 0 %f %f]\r\n",
+                pdf_get_first_object(pdf, OBJ_page_root)->object_num,
+                page_leaf->page_leaf.width,
+                page_leaf->page_leaf.height);
+    if (page_leaf->page_leaf.contents.object_count) {
+        fprintf(fp, "/Contents [");
+        struct PDF_object* curr_object;
+        char* reference = malloc(32 * sizeof(char));
+        int chars_on_line = 11;
+        int reference_length = 0;
+        for(int i = 0; i < page_leaf->page_leaf.contents.object_count; ++i) {
+            curr_object = page_leaf->page_leaf.contents.objects[i];
+            if (i + 1 == page_leaf->page_leaf.contents.object_count) {
+                reference_length = sprintf(reference, "%d 0 R]", curr_object->object_num);
+            } else {
+                reference_length = sprintf(reference, "%d 0 R ", curr_object->object_num);
+            }
+            if (chars_on_line + reference_length > PDF_LINE_CHARACTER_LIMIT) {
+                fprintf(fp, "\r\n");
+                chars_on_line = 0;
+            }
+            fprintf(fp, "%s", reference);
+            chars_on_line += reference_length;
+        }
+        free(reference);
+        fprintf(fp, "\r\n");
+    }
+    fprintf(fp, ">>\r\n");
 }
 
 static void pdf_construct_page_root(FILE* fp, struct PDF_doc* pdf) {
     // Begin dictionary.
-    fprintf(fp, "<<\n");
+    fprintf(fp, "<<\r\n");
 
     // Type entry, this object describes a page tree root.
-    fprintf(fp, "/Type /Pages\n");
+    fprintf(fp, "/Type /Pages\r\n");
 
     // Kids entry: an array of page references to all kids is constructed.
     fprintf(fp, "/Kids [");
@@ -249,22 +293,23 @@ static void pdf_construct_page_root(FILE* fp, struct PDF_doc* pdf) {
         } else {
             reference_length = sprintf(reference, "%d 0 R ", current_kid->object_num);
         }
-        if (chars_on_line + reference_length > LINE_CHARACTER_LIMIT) {
-            fprintf(fp, "\n");
+        if (chars_on_line + reference_length > PDF_LINE_CHARACTER_LIMIT) {
+            fprintf(fp, "\r\n");
             chars_on_line = 0;
         }
         fprintf(fp, "%s", reference);
         chars_on_line += reference_length;
         ++count;
+        current_kid = current_kid->next;
     }
-    fprintf(fp, "\n");
+    fprintf(fp, "\r\n");
     free(reference);
 
     // Count entry: the amount of kids.
-    fprintf(fp, "/Count %d\n", count);
+    fprintf(fp, "/Count %d\r\n", count);
 
     // End dictionary.
-    fprintf(fp, ">>\n");
+    fprintf(fp, ">>\r\n");
 }
 
 static void pdf_construct_object(FILE* fp, struct PDF_doc* pdf, int index) {
@@ -275,7 +320,7 @@ static void pdf_construct_object(FILE* fp, struct PDF_doc* pdf, int index) {
     }
 
     // Start new object.
-    fprintf(fp, "%d 0 object\n", object->object_num);
+    fprintf(fp, "%d 0 object\r\n", object->object_num);
 
     // Write object contents.
     switch (object->type) {
@@ -285,6 +330,9 @@ static void pdf_construct_object(FILE* fp, struct PDF_doc* pdf, int index) {
         case OBJ_info:
             pdf_construct_info(fp, object);
             break;
+        case OBJ_page_leaf:
+            pdf_construct_page_leaf(fp, pdf, object);
+            break;
         case OBJ_page_root:
             pdf_construct_page_root(fp, pdf);
             break;
@@ -293,13 +341,13 @@ static void pdf_construct_object(FILE* fp, struct PDF_doc* pdf, int index) {
     }
 
     // End object.
-    fprintf(fp, "endobject\n");
+    fprintf(fp, "endobject\r\n");
 }
 
 static void pdf_construct(FILE* fp, struct PDF_doc* pdf) {
     // Write header.
-    fprintf(fp, "%%PDF-%s\n", PDF_VERSION);
-    fprintf(fp, "%%%s\n", HIGH_VAL_BYTES);
+    fprintf(fp, "%%PDF-%s\r\n", PDF_VERSION);
+    fprintf(fp, "%%%s\r\n", PDF_HIGH_VAL_BYTES);
 
     // Construct all objects.
     for(int i = 0; i < pdf_object_array_size(pdf->objects); ++i) {
@@ -307,7 +355,7 @@ static void pdf_construct(FILE* fp, struct PDF_doc* pdf) {
     }
 
     // Write trailer.
-    fprintf(fp, "%%%%EOF\n");
+    fprintf(fp, "%%%%EOF\r\n");
 }
 
 void pdf_save(const char* name, const char* dest, struct PDF_doc* pdf) {
