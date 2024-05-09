@@ -1,3 +1,26 @@
 %PDF-1.7
 %ÄÅÇÉ
+1 0 object
+<<
+/Title (Test)
+/Author (Pieter)
+/Subject (Test)
+/Creator (CyPress)
+/Producer (CyPress)
+/CreationDate (D:20240509134923+01'00')
+>>
+endobject
+2 0 object
+<<
+/Type /Pages
+/Kids [
+/Count 0
+>>
+endobject
+3 0 object
+<<
+/Type /Catalog
+/Pages 2 0 R
+>>
+endobject
 %%EOF
