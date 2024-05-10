@@ -346,20 +346,39 @@ static void pdf_construct_object(FILE* fp, struct PDF_doc* pdf, int index) {
     fprintf(fp, "endobject\r\n");
 }
 
-static void pdf_construct_trailer(FILE* fp, struct PDF_doc* pdf) {
+static void pdf_construct_trailer(FILE* fp, struct PDF_doc* pdf, const char* name, long long xref_offset) {
+    char* string_to_hash = malloc(1024 * sizeof(char));
+    char* date = pdf_create_date();
+    struct PDF_object* info = pdf_get_first_object(pdf, OBJ_info);
+    sprintf(string_to_hash, "%s%s%ld%s%s%s%s%s%s",
+            date, name, ftell(fp),
+            info->info.title,
+            info->info.author,
+            info->info.subject,
+            info->info.creator,
+            info->info.producer,
+            info->info.creation_date);
+    char* ID = md5_string(string_to_hash);
+    free(string_to_hash);
+    free(date);
     fprintf(fp, "trailer\r\n"
                 "<<\r\n"
                 "/Size %d\r\n"
                 "/Root %d 0 R\r\n"
                 "/Info %d 0 R\r\n"
-                "/ID [%s %s]",
+                "/ID [<%s> <%s>]\r\n"
+                ">>\r\n"
+                "startxref\r\n"
+                "%lld\r\n",
                 pdf->objects.object_count + 1,
                 pdf->first_objects[OBJ_catalog]->object_num,
                 pdf->first_objects[OBJ_info]->object_num,
-                );
+                ID, ID,
+                xref_offset);
+    free(ID);
 }
 
-static void pdf_construct(FILE* fp, struct PDF_doc* pdf) {
+static void pdf_construct(FILE* fp, struct PDF_doc* pdf, const char* name) {
     // Write header.
     fprintf(fp, "%%PDF-%s\r\n", PDF_VERSION);
     fprintf(fp, "%%%s\r\n", PDF_HIGH_VAL_BYTES);
@@ -368,6 +387,10 @@ static void pdf_construct(FILE* fp, struct PDF_doc* pdf) {
     for(int i = 0; i < pdf_object_array_size(pdf->objects); ++i) {
         pdf_construct_object(fp, pdf, i);
     }
+
+    long long xref_offset = ftell(fp) + 1;
+
+    pdf_construct_trailer(fp, pdf, name, xref_offset);
 
     // Write trailer.
     fprintf(fp, "%%%%EOF\r\n");
@@ -389,7 +412,7 @@ void pdf_save(const char* name, const char* dest, struct PDF_doc* pdf) {
         fp = fopen(file_path, "wb"); // The file is written in binary since pdf requires byte values which can be misinterpreted as characters.
         free(file_path);
     }
-    pdf_construct(fp, pdf);
+    pdf_construct(fp, pdf, name);
 
     fclose(fp);
 }
