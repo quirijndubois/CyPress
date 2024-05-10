@@ -370,7 +370,7 @@ static void pdf_construct_trailer(FILE* fp, struct PDF_doc* pdf, const char* nam
                 ">>\r\n"
                 "startxref\r\n"
                 "%lld\r\n",
-                pdf->objects.object_count + 1,
+                pdf->objects.object_count,
                 pdf->first_objects[OBJ_catalog]->object_num,
                 pdf->first_objects[OBJ_info]->object_num,
                 ID, ID,
