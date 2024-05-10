@@ -5,6 +5,8 @@
 
 #include "pdf.h"
 
+#include "md5.h"
+
 enum OBJType {
     OBJ_null,
     OBJ_catalog,
@@ -342,6 +344,19 @@ static void pdf_construct_object(FILE* fp, struct PDF_doc* pdf, int index) {
 
     // End object.
     fprintf(fp, "endobject\r\n");
+}
+
+static void pdf_construct_trailer(FILE* fp, struct PDF_doc* pdf) {
+    fprintf(fp, "trailer\r\n"
+                "<<\r\n"
+                "/Size %d\r\n"
+                "/Root %d 0 R\r\n"
+                "/Info %d 0 R\r\n"
+                "/ID [%s %s]",
+                pdf->objects.object_count + 1,
+                pdf->first_objects[OBJ_catalog]->object_num,
+                pdf->first_objects[OBJ_info]->object_num,
+                );
 }
 
 static void pdf_construct(FILE* fp, struct PDF_doc* pdf) {
