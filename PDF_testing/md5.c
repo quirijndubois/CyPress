@@ -73,7 +73,7 @@ char* md5_string(char* initial_msg) {
     padded_msg[initial_len] = 128; // This adds the '1'-bit, 128 = 10000000_2.
 
     initial_len *= 8; // Length in bits.
-    memcpy(padded_msg + padded_len - sizeof(uint64_t), &initial_len, sizeof(uint64_t)); // Copies the length of the initial message to the last 64 bits of padded_msg.
+    memcpy(padded_msg + padded_len - sizeof(uint64_t), &initial_len, sizeof(uint64_t)); // Copies the length of initial_msg int bits to the last 64 bits of padded_msg.
 
     // Table generated with the formula K[i] = abs(sin(i + 1)) * 2^32 in radians.
     const uint32_t K[] = {
