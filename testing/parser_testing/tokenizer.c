@@ -47,7 +47,7 @@ char* syntax_stripper(const char* syntax_string) {
     strcpy(stripped_syntax_string, syntax_string);
 
     // Replace \n with \\newline
-    char* temp_str = replace_substring(stripped_syntax_string, "\n", " \newline ");
+    char* temp_str = replace_substring(stripped_syntax_string, "\n", " \\newline ");
     free(stripped_syntax_string);
     stripped_syntax_string = temp_str;
 
