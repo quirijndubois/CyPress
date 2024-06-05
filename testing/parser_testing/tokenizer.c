@@ -121,8 +121,9 @@ void tokenize(const char* syntax_string, char** tokens, int* token_count) {
     free(stripped_syntax_string);
 }
 
-int main() {
-    FILE* file = fopen("example.cyp", "r");
+int tokenize_file(char** tokens){
+    char* path = "example.cyp";
+    FILE* file = fopen(path, "r");
     if (file == NULL) {
         fprintf(stderr, "Could not open file\n");
         return 1;
@@ -138,14 +139,18 @@ int main() {
     fclose(file);
     syntax_string[fsize] = '\0';
 
-    char* tokens[MAX_TOKENS];
     int token_count;
     tokenize(syntax_string, tokens, &token_count);
 
     for (int i = 0; i < token_count; i++) {
         printf("%s\n", tokens[i]);
-        free(tokens[i]);
     }
 
     free(syntax_string);
+    return 0;
+}
+
+int main() {
+    char* tokens[MAX_TOKENS];
+    tokenize_file(tokens);
 }
