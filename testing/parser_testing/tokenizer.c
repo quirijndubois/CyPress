@@ -148,5 +148,4 @@ int main() {
     }
 
     free(syntax_string);
-    return 0;
 }
