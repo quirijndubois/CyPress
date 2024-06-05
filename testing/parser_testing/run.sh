@@ -1,5 +1,5 @@
-# Simple compilation and run script for gcc for development of tokenizer.c
+# Simple compilation bash script
 
-gcc tokenizer.c
+gcc parser.c
 ./a.out
 rm ./a.out

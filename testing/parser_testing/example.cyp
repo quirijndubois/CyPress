@@ -1,10 +1,7 @@
 Hallo test
 ;x^2 + 3y - 2a;
-
-\bold(This is bold)\some_command("fdsjkl")
+\bold(This bold)\some_command("sjkl")
 New paragraph
 
-Hey, hoe is het
-
 \test_func(ok)
-Hoe is het
+Hoe is?

@@ -75,7 +75,7 @@ char* syntax_stripper(const char* syntax_string) {
 
 // Function to separate the syntax string into tokens
 void separate(const char* syntax_string, char** tokens, int* token_count) {
-    const char* delimiters = "()\\;\"";
+    const char* delimiters = "()\\;\",";
     char current_token[MAX_TOKEN_LENGTH];
     int current_token_index = 0;
     int i;
@@ -115,14 +115,13 @@ void separate(const char* syntax_string, char** tokens, int* token_count) {
     }
 }
 
-void tokenize(const char* syntax_string, char** tokens, int* token_count) {
+void tokenize_string(const char* syntax_string, char** tokens, int* token_count) {
     char* stripped_syntax_string = syntax_stripper(syntax_string);
     separate(stripped_syntax_string, tokens, token_count);
     free(stripped_syntax_string);
 }
 
-int tokenize_file(char** tokens){
-    char* path = "example.cyp";
+int tokenize_file(char* path,char** tokens){
     FILE* file = fopen(path, "r");
     if (file == NULL) {
         fprintf(stderr, "Could not open file\n");
@@ -140,17 +139,8 @@ int tokenize_file(char** tokens){
     syntax_string[fsize] = '\0';
 
     int token_count;
-    tokenize(syntax_string, tokens, &token_count);
-
-    for (int i = 0; i < token_count; i++) {
-        printf("%s\n", tokens[i]);
-    }
+    tokenize_string(syntax_string, tokens, &token_count);
 
     free(syntax_string);
     return 0;
-}
-
-int main() {
-    char* tokens[MAX_TOKENS];
-    tokenize_file(tokens);
 }
