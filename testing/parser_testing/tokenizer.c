@@ -25,10 +25,6 @@ char* replace_substring(const char* str, const char* old, const char* new_str) {
 
     // Allocating space for the new result
     result = (char*)malloc(i + cnt * (new_len - old_len) + 1);
-    if (result == NULL) {
-        fprintf(stderr, "Memory allocation failed\n");
-        exit(1);
-    }
 
     i = 0;
     while (*str) {
@@ -47,10 +43,7 @@ char* replace_substring(const char* str, const char* old, const char* new_str) {
 // Function to strip syntax from the input string
 char* syntax_stripper(const char* syntax_string) {
     char* stripped_syntax_string = (char*)malloc(2 * strlen(syntax_string) + 1); // Allocate more space for escape characters
-    if (stripped_syntax_string == NULL) {
-        fprintf(stderr, "Memory allocation failed\n");
-        exit(1);
-    }
+
     strcpy(stripped_syntax_string, syntax_string);
 
     // Replace \n with \\newline
@@ -60,10 +53,7 @@ char* syntax_stripper(const char* syntax_string) {
 
     // Remove multiple spaces
     char* result = (char*)malloc(strlen(stripped_syntax_string) + 1);
-    if (result == NULL) {
-        fprintf(stderr, "Memory allocation failed\n");
-        exit(1);
-    }
+
     int i, j = 0;
     int in_space = 0;
     for (i = 0; stripped_syntax_string[i] != '\0'; i++) {
@@ -125,7 +115,6 @@ void separate(const char* syntax_string, char** tokens, int* token_count) {
     }
 }
 
-// Function to tokenize the syntax string
 void tokenize(const char* syntax_string, char** tokens, int* token_count) {
     char* stripped_syntax_string = syntax_stripper(syntax_string);
     separate(stripped_syntax_string, tokens, token_count);
@@ -144,11 +133,6 @@ int main() {
     fseek(file, 0, SEEK_SET);
 
     char* syntax_string = (char*)malloc(fsize + 1);
-    if (syntax_string == NULL) {
-        fprintf(stderr, "Memory allocation failed\n");
-        fclose(file);
-        return 1;
-    }
 
     fread(syntax_string, 1, fsize, file);
     fclose(file);
