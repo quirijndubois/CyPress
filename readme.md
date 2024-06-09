@@ -3,7 +3,7 @@
 🌲🌲🌲🌲 Custom 🤓 scientific 🧬 text 📚 language compiler 💻 implementation revolutionizing "LaTeX" 🤮. 🌲🌲🌲🌲
 
 
-## Goals
+## Goals (long term)
 
 - Scientific document typesetting (Similar to LaTeX)
 - Simple syntax with .cyp files (Simpler than LaTeX)
@@ -22,3 +22,4 @@
 - [ ] Layout to PDF generator
 - [ ] HTML generation
 - [ ] Layout to HTML generator
+- [ ] Documentation
