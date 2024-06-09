@@ -11,6 +11,6 @@ int main() {
     char* tokens[MAX_TOKENS];
     char* path = "example.cyp";
     tokenize_file(path,tokens);
-    print_tokens(tokens);
+    // print_tokens(tokens);
     generate_tree(tokens);
 }

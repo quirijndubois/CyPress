@@ -4,19 +4,43 @@
 #include <ctype.h>
 #include <stdbool.h>
 
-void find_first_layer(char** tokens){
+#define MAX_TOKENS 16384
+
+void print_tokens_by_index(char** tokens,int* indeces_array){
+    int i = 0;
+    while(indeces_array[i+1] != 0){
+        printf("%s , ",tokens[indeces_array[i]]);
+        i++;
+    }
+    printf("%s\n",tokens[indeces_array[i]]);
+}
+
+// This function returns all indices of tokens within the first layer
+void find_first_layer_indices(char** tokens,int* indeces_array){
+
+    int indeces_array_length = 0;
 
     char* single_delimiters = "\\";
-    char* opening_delimiters = "{(";
-    char* closing_delimiters = "})";
+    char* opening_delimiters = "{(;";
+    char* closing_delimiters = "});";
 
-    int i = 0;
 
     int depth = 0;
-
     bool first_layer = true;
+    char* last_upper_layer_token;
 
+    int i = 0;
     while (tokens[i] != NULL){
+
+        if (first_layer == true){
+            if (!strchr(single_delimiters, tokens[i-1][0])){
+                // printf("%s ",tokens[i]);
+                indeces_array[indeces_array_length] = i;
+                indeces_array_length++;
+            }
+        }
+
+
         if (strchr(opening_delimiters, tokens[i][0])){
             first_layer = false;
             depth++;
@@ -27,17 +51,13 @@ void find_first_layer(char** tokens){
                 first_layer = true;
             }
         }
-        else if (strchr(single_delimiters, tokens[i-1][0])){
-            // first_layer = false;
-        }
 
-        if (first_layer == true){
-            printf("%s ",tokens[i]);
-        }
         i++;
     }
 }
 
 void generate_tree(char** tokens){
-    find_first_layer(tokens);
+    int indeces_array[MAX_TOKENS];
+    find_first_layer_indices(tokens,indeces_array);
+    print_tokens_by_index(tokens,indeces_array);
 }
