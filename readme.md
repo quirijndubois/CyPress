@@ -8,6 +8,7 @@
 - Scientific document typesetting (Similar to LaTeX)
 - Simple syntax with .cyp files (Simpler than LaTeX)
 - PDF generation
+- High efficiency
 - HTML generation
 - HTML, PDF equivilancy
 - IPyhton implemention
