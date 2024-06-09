@@ -11,6 +11,7 @@
 #define OPENING_DELIMITERS "{(;"
 #define CLOSING_DELIMITERS "});"
 
+
 int get_tokens_length(char** tokens){
     int i = 0;
     while (tokens[i] != NULL){
@@ -83,18 +84,16 @@ int get_layer_end(char** tokens, int starting_index){
     return starting_index;
 }
 
+void recursive_layer_generator(char **tokens,int start_index, int ending_index){
+
+    int indeces_array[MAX_TOKENS];
+    find_first_layer_indices(tokens,indeces_array,start_index,ending_index);
+    print_tokens_by_index(tokens,indeces_array);
+}
 
 void generate_tree(char** tokens){
 
     print_tokens_index(tokens);
+    recursive_layer_generator(tokens,0,get_tokens_length(tokens));
 
-    int ending;
-    ending = get_layer_end(tokens,6);
-    printf("\n%d\n",ending);
-
-    // int tokens_length = get_tokens_length(tokens);
-
-    // int indeces_array[MAX_TOKENS];
-    // find_first_layer_indices(tokens,indeces_array,0,tokens_length);
-    // print_tokens_by_index(tokens,indeces_array);
 }
