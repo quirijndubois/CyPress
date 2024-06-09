@@ -1,6 +1,6 @@
 # CyPress
 
-🌲🌲🌲🌲 Custom 🤓 scientific 🧬 text 📚 language compiler 💻 implementation revolutionizing "LaTeX" 🤮. 🌲🌲🌲🌲
+🌲🌲🌲🌲 Custom 🤓 scientific 🧬 text 📚 language compiler 💻 written in C revolutionizing "LaTeX" 🤮. 🌲🌲🌲🌲
 
 
 ## Goals (long term)
