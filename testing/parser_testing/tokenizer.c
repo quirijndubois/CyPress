@@ -1,4 +1,4 @@
-// Implmentation of tokenizer.py in c, partially with use of chatgpt
+// Implmentation of tokenizer.py in c
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -121,14 +121,7 @@ void tokenize_string(const char* syntax_string, char** tokens, int* token_count)
     free(stripped_syntax_string);
 }
 
-void print_tokens(char** tokens){
-    int i = 0;
-    while (tokens[i+1]!=NULL) {
-        printf("'%s',", tokens[i]);
-        i++;
-    }
-    printf("'%s'\n", tokens[i]);
-}
+
 
 int tokenize_file(char* path,char** tokens){
     FILE* file = fopen(path, "r");
