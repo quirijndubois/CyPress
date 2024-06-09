@@ -14,8 +14,11 @@
 - Streamlining numerical and symbolic calculations (With python)
 
 
-## TODO
+## TODO (short term)
+- [ ] PDF generation
 - [x] Syntax tokenizer
 - [ ] Syntax tree generator
 - [ ] Syntax tree to layout converter
-- [ ] PDF generation
+- [ ] Layout to PDF generator
+- [ ] HTML generation
+- [ ] Layout to HTML generator
