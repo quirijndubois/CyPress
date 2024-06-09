@@ -10,7 +10,7 @@
 - PDF generation
 - High efficiency
 - HTML generation
-- HTML, PDF equivilancy
+- HTML, PDF equivalency
 - IPyhton implemention
 - Streamlining numerical and symbolic calculations (With python)
 
