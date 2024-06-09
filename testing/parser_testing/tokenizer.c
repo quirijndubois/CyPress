@@ -121,6 +121,15 @@ void tokenize_string(const char* syntax_string, char** tokens, int* token_count)
     free(stripped_syntax_string);
 }
 
+void print_tokens(char** tokens){
+    int i = 0;
+    while (tokens[i+1]!=NULL) {
+        printf("'%s',", tokens[i]);
+        i++;
+    }
+    printf("'%s'\n", tokens[i]);
+}
+
 int tokenize_file(char* path,char** tokens){
     FILE* file = fopen(path, "r");
     if (file == NULL) {
