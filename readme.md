@@ -11,7 +11,7 @@
 - High efficiency
 - HTML generation
 - HTML, PDF equivalency
-- IPyhton implemention
+- IPython implemention
 - Streamlining numerical and symbolic calculations (With python)
 
 
