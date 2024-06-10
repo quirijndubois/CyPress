@@ -1,9 +1,4 @@
-// Implmentation of tokenizer.py in c
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
+// Implementation of tokenizer.py in c
 
 #define MAX_TOKENS 16384
 #define MAX_TOKEN_LENGTH 2024

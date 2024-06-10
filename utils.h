@@ -1,8 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdbool.h>
-
 // Define ANSI color codes
 #define RESET "\033[0m"
 #define WHITE "\033[37m"

@@ -1,10 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
-#include <stdbool.h>
-// #include "utils.c"
-
 #define MAX_TOKENS 16384
 
 #define SINGLE_DELIMITERS "\\"
