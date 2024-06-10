@@ -8,6 +8,8 @@
 #define MAX_TOKENS 16384
 #define MAX_TOKEN_LENGTH 2024
 
+#define DELIMITERS "()\\;\"\',"
+
 // Function to replace all occurrences of a substring with another string
 char* replace_substring(const char* str, const char* old, const char* new_str) {
     char* result;
@@ -75,7 +77,6 @@ char* syntax_stripper(const char* syntax_string) {
 
 // Function to separate the syntax string into tokens
 void separate(const char* syntax_string, char** tokens, int* token_count) {
-    const char* delimiters = "()\\;\",";
     char current_token[MAX_TOKEN_LENGTH];
     int current_token_index = 0;
     int i;
@@ -92,7 +93,7 @@ void separate(const char* syntax_string, char** tokens, int* token_count) {
                 (*token_count)++;
                 current_token_index = 0;
             }
-        } else if (strchr(delimiters, c)) {
+        } else if (strchr(DELIMITERS, c)) {
             if (current_token_index != 0) {
                 current_token[current_token_index] = '\0';
                 tokens[*token_count] = strdup(current_token);

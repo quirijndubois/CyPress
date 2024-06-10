@@ -8,8 +8,9 @@
 #define MAX_TOKENS 16384
 
 #define SINGLE_DELIMITERS "\\"
-#define OPENING_DELIMITERS "{(;"
-#define CLOSING_DELIMITERS "});"
+#define OPENING_DELIMITERS "{("
+#define CLOSING_DELIMITERS "})"
+#define DOUBLE_DELIMITERS ";\"\'"
 
 
 int get_tokens_length(char** tokens){
@@ -28,6 +29,8 @@ void find_first_layer_indices(char** tokens,int* indeces_array,int start_index, 
     int depth = 0;
     bool first_layer = true;
     char* last_upper_layer_token;
+
+    bool inside_double_delimiter = false;
 
     int i = start_index;
     while (i < ending_index){
@@ -48,6 +51,20 @@ void find_first_layer_indices(char** tokens,int* indeces_array,int start_index, 
             depth--;
             if (depth == 0){
                 first_layer = true;
+            }
+        }
+        else if (strchr(DOUBLE_DELIMITERS, tokens[i][0])){
+            if(!inside_double_delimiter){
+                inside_double_delimiter = true;
+                first_layer = false;
+                depth++;
+            }
+            else{
+                depth--;
+                inside_double_delimiter = false;
+                if (depth == 0){
+                    first_layer = true;
+                }
             }
         }
 
@@ -71,16 +88,31 @@ int get_layer_end(char** tokens, int starting_index){
                 depth++;
             }
             else if(strchr(CLOSING_DELIMITERS, tokens[i][0])){
-                depth--;
                 if (depth == 0){
                     stop = true;
                 }
+                depth--;
             }
             i++;
         }
-        return i-1;
-
+        return i-2;
     }
+    else if(strchr(DOUBLE_DELIMITERS, tokens[starting_index][0])){
+
+
+        int depth = 0;
+        bool stop = false;
+        int i = starting_index+1;
+        while(stop == false){
+            if(tokens[starting_index][0] == tokens[i][0]){
+                stop = true;
+            }
+            i++;
+        }
+        return i-2;
+    }
+
+
     return starting_index;
 }
 
@@ -94,6 +126,7 @@ void recursive_layer_generator(char **tokens,int start_index, int ending_index){
 void generate_tree(char** tokens){
 
     print_tokens_index(tokens);
+
     recursive_layer_generator(tokens,0,get_tokens_length(tokens));
 
 }
