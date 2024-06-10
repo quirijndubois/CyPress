@@ -1,3 +1,6 @@
+
+<div style="color: green;">
+
 ```
                                               .*.
                                              .=++. 
@@ -18,6 +21,9 @@ By: Quirijn du Bois & Pieter te Brake      .*+++++.
                                              .#+ 
                                              .#+
 ```
+
+</div>
+
 🌲🌲🌲🌲 Custom 🤓 scientific 🧬 text 📚 language compiler 💻 written in C revolutionizing "LaTeX" 🤮. 🌲🌲🌲🌲
 
 
