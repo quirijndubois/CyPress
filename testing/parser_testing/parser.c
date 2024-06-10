@@ -13,4 +13,5 @@ int main() {
     tokenize_file(path,tokens);
     // print_tokens(tokens);
     generate_tree(tokens);
+    print_logo();
 }
