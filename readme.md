@@ -1,4 +1,4 @@
-
+```
                                               .*.
                                              .=++. 
                                             .**++++
@@ -17,6 +17,7 @@ By: Quirijn du Bois & Pieter te Brake      .*+++++.
                                              .#+ 
                                              .#+ 
                                              .#+
+```
 🌲🌲🌲🌲 Custom 🤓 scientific 🧬 text 📚 language compiler 💻 written in C revolutionizing "LaTeX" 🤮. 🌲🌲🌲🌲
 
 
