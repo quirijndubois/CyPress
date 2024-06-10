@@ -5,13 +5,13 @@
 #include <stdbool.h>
 
 // Define ANSI color codes
-#define RED     "\x1b[31m"
-#define GREEN   "\x1b[32m"
-#define YELLOW  "\x1b[33m"
-#define BLUE    "\x1b[34m"
-#define MAGENTA "\x1b[35m"
-#define CYAN    "\x1b[36m"
-#define RESET   "\x1b[0m"
+#define RESET "\033[0m"
+#define WHITE "\033[37m"
+#define NORMAL_GREEN "\033[32m"
+#define DARK_GREEN "\033[32;2m"
+#define BROWN "\x1b[31m"
+#define DARK_BROWN "\x1b[31;2m"
+#define BLUE "\x1b[34m"
 
 void print_tokens(char** tokens){
     int i = 0;
@@ -41,6 +41,12 @@ void print_tokens_index(char** tokens){
 }
 
 void print_logo() {
+    const char* dark_green_chars = "*";
+    const char* normal_green_chars = ".+=";
+    const char* brown_chars = ";";
+    const char* dark_brown_chars = ">#";
+    const char* blue_chars = "/|_-()\\,\'";
+
     char* filename = "logo.txt";
     FILE *file = fopen(filename, "r");
     if (file == NULL) {
@@ -49,14 +55,26 @@ void print_logo() {
     }
 
     char line[1024];
-    // int color_counter = 0;
 
-    printf(GREEN);
     while (fgets(line, sizeof(line), file)) {
-        printf("%s", line);
+        for (int i = 0; line[i] != '\0'; i++) {
+            if (strchr(dark_green_chars, line[i])) {
+                printf(DARK_GREEN "%c" RESET, line[i]);
+            } else if (strchr(normal_green_chars, line[i])) {
+                printf(NORMAL_GREEN "%c" RESET, line[i]);
+            } else if (strchr(brown_chars, line[i])) {
+                printf(BROWN "%c" RESET, line[i]);
+            } else if (strchr(dark_brown_chars, line[i])) {
+                printf(DARK_BROWN "%c" RESET, line[i]);
+            } else if (strchr(blue_chars, line[i])) {
+                printf(BLUE "%c" RESET, line[i]);
+            } else {
+                printf("%c", line[i]);  // Default color
+            }
+        }
     }
 
-    printf(RESET); // Reset color
     fclose(file);
     printf("\n");
 }
+

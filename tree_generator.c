@@ -120,12 +120,12 @@ void recursive_layer_generator(char **tokens,int start_index, int ending_index){
 
     int indeces_array[MAX_TOKENS];
     find_first_layer_indices(tokens,indeces_array,start_index,ending_index);
-    print_tokens_by_index(tokens,indeces_array);
+    // print_tokens_by_index(tokens,indeces_array);
 }
 
 void generate_tree(char** tokens){
 
-    print_tokens_index(tokens);
+    // print_tokens_index(tokens);
 
     recursive_layer_generator(tokens,0,get_tokens_length(tokens));
 
