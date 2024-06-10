@@ -1,5 +1,5 @@
 // This file as meant as full stack compiler (main file)
-// Please dont put any main functions in any other .c files that are included in pipeline
+// Please dont put any main functions in any other files that are included in pipeline
 
 #include <stdio.h>
 #include <stdlib.h>
