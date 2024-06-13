@@ -2,5 +2,5 @@
 # Made for rapid compiling and testing 
 
 gcc compile.c
-./a.out
+./a.out example.cyp
 rm ./a.out

@@ -9,7 +9,9 @@
 #include "parser/parser.h"
 #include "utils.h"
 
-int main(){
+int main(int argc, char* argv[]){
     print_logo();
-    parse("example.cyp");
+
+    char* path = argv[1];
+    parse(path);
 }
