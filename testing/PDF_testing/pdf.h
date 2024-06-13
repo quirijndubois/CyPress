@@ -31,10 +31,12 @@ struct PDF_info {
 };
 
 struct PDF_object;
+struct PDF_object_page_leaf;
 struct PDF_doc;
 
 struct PDF_info* pdf_create_info(const char* title, const char* author, const char* subject, const char* creator, const char* producer);
 struct PDF_object* pdf_add_page(struct PDF_doc* pdf, float width, float height);
+struct PDF_object* pdf_add_content_stream(struct PDF_doc* pdf, const char* content, struct PDF_object* page);
 struct PDF_doc* pdf_create(struct PDF_info* info);
 void pdf_save(const char* name, const char* dest, struct PDF_doc* pdf);
 

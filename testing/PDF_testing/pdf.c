@@ -10,6 +10,7 @@
 enum OBJType {
     OBJ_null,
     OBJ_catalog,
+    OBJ_content_stream,
     OBJ_info,
     OBJ_page_leaf,
     OBJ_page_root,
@@ -21,6 +22,12 @@ struct PDF_object_array {
     int object_count;
     int array_size;
     struct PDF_object** objects;
+};
+
+struct PDF_object_content_stream {
+    size_t length;
+    struct PDF_object* page;
+    char* content;
 };
 
 struct PDF_object_page_leaf {
@@ -39,6 +46,7 @@ struct PDF_object {
 
     union {
         struct PDF_info info;
+        struct PDF_object_content_stream content_stream;
         struct PDF_object_page_leaf page_leaf;
     };
 };
@@ -169,6 +177,18 @@ static struct PDF_object* pdf_add_catalog(struct PDF_doc* pdf) {
     return catalog;
 }
 
+struct PDF_object* pdf_add_content_stream(struct PDF_doc* pdf, const char* content, struct PDF_object* page) {
+    struct PDF_object* content_stream = pdf_add_object(pdf, OBJ_content_stream);
+    content_stream->content_stream.length = strlen(content);
+    content_stream->content_stream.content = calloc(content_stream->content_stream.length + 1, sizeof(char));
+    memcpy(content_stream->content_stream.content, content, content_stream->content_stream.length);
+    content_stream->content_stream.page = page;
+
+    pdf_object_array_append(&page->page_leaf.contents, content_stream);
+
+    return content_stream;
+}
+
 struct PDF_object* pdf_add_page(struct PDF_doc* pdf, float width, float height) {
     struct PDF_object* page_leaf = pdf_add_object(pdf, OBJ_page_leaf);
     page_leaf->page_leaf.width = width;
@@ -212,6 +232,21 @@ static void pdf_construct_catalog(FILE* fp, struct PDF_doc* pdf) {
 
     // End dictionary.
     fprintf(fp, ">>\r\n");
+}
+
+static void pdf_construct_content_stream(FILE* fp, struct PDF_object* content_stream) {
+    fprintf(fp, "<<\r\n"
+                "/Length %zu\r\n"
+                ">>\r\n"
+                "stream\r\n"
+                "BT\r\n"
+                "/F1 12 Tf\r\n"
+                "72 712 Td\r\n"
+                "(%s) Tj\r\n"
+                "ET\r\n"
+                "endstream\r\n",
+                content_stream->content_stream.length + 35, 
+                content_stream->content_stream.content);
 }
 
 static void pdf_construct_info(FILE* fp, struct PDF_object* info) {
@@ -329,6 +364,9 @@ static void pdf_construct_object(FILE* fp, struct PDF_doc* pdf, int index) {
         case OBJ_catalog:
             pdf_construct_catalog(fp, pdf);
             break;
+        case OBJ_content_stream:
+            pdf_construct_content_stream(fp, object);
+            break;
         case OBJ_info:
             pdf_construct_info(fp, object);
             break;
@@ -344,6 +382,19 @@ static void pdf_construct_object(FILE* fp, struct PDF_doc* pdf, int index) {
 
     // End object.
     fprintf(fp, "endobject\r\n");
+}
+
+static void pdf_construct_xref(FILE* fp, struct PDF_doc* pdf, int xref_count) {
+    fprintf(fp, "xref\r\n"
+                "0 %d\r\n"
+                "0000000000 65535 f\r\n",
+                xref_count);
+    for(int i = 0; i < pdf_object_array_size(pdf->objects); ++i) {
+        struct PDF_object* obj = pdf->objects.objects[i];
+        if (obj->type != OBJ_null) {
+            fprintf(fp, "%.10lld 00000 n\r\n", obj->offset);
+        }
+    }
 }
 
 static void pdf_construct_trailer(FILE* fp, struct PDF_doc* pdf, const char* name, long long xref_offset) {
@@ -384,12 +435,15 @@ static void pdf_construct(FILE* fp, struct PDF_doc* pdf, const char* name) {
     fprintf(fp, "%%%s\r\n", PDF_HIGH_VAL_BYTES);
 
     // Construct all objects.
+    int xref_count = 0;
     for(int i = 0; i < pdf_object_array_size(pdf->objects); ++i) {
         pdf_construct_object(fp, pdf, i);
+        ++xref_count;
     }
 
     long long xref_offset = ftell(fp) + 1;
 
+    pdf_construct_xref(fp, pdf, xref_count);
     pdf_construct_trailer(fp, pdf, name, xref_offset);
 
     // Write trailer.
