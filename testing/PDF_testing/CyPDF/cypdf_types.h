@@ -44,6 +44,10 @@ typedef double              CYPDF_DOUBLE;
 typedef signed int          CYPDF_BOOL;
 
 
+/* size type */
+typedef size_t              CYPDF_SIZE;
+
+
 /* CYPDF_Point struct */
 typedef struct _CYPDF_Point {
     CYPDF_REAL x;
