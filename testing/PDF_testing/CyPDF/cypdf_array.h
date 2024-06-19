@@ -7,11 +7,11 @@
 
 
 
-typedef struct _CYPDF_Array {
+typedef struct _CYPDF_Array_Obj {
     CYPDF_Obj_Header    header;
     CYPDF_List          obj_list;
-} CYPDF_Array;
+} CYPDF_Array_Obj;
 
 
 
-#endif
+#endif /* CYPDF_ARRAY_H */

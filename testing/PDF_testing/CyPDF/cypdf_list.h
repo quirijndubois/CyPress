@@ -15,4 +15,4 @@ typedef struct _CYPDF_List {
 
 
 
-#endif
+#endif /* CYPDF_LIST_H */

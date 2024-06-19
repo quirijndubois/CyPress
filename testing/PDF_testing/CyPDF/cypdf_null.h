@@ -12,4 +12,4 @@ typedef struct _CYPDF_Null_Obj {
 
 
 
-#endif
+#endif /* CYPDF_NULL_H */

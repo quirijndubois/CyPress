@@ -13,4 +13,4 @@ typedef struct _CYPDF_doc {
 
 
 
-#endif
+#endif /* CYPDF_DOC_H */

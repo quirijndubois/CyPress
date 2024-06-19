@@ -14,4 +14,4 @@ typedef struct _CYPDF_String_obj {
 
 
 
-#endif
+#endif /* CYPDF_STRING_H */

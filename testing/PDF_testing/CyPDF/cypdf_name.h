@@ -16,4 +16,4 @@ typedef struct _CYPDF_Name_Obj {
 
 
 
-#endif
+#endif /* CYPDF_NAME_H */

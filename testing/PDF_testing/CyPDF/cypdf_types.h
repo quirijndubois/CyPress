@@ -64,5 +64,10 @@ typedef struct _CYPDF_Rect {
 } CYPDF_Rect;
 
 
+typedef void* (*CYPDF_Alloc_Func)(CYPDF_SIZE size);
+
+typedef void (*CYPDF_Free_Func)(void* ptr);
+
+
 
 #endif

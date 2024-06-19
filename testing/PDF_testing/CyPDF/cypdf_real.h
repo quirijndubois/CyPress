@@ -13,4 +13,4 @@ typedef struct _CYPDF_Real_Obj {
 
 
 
-#endif
+#endif /* CYPDF_REAL_H */
