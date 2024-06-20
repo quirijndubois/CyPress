@@ -20,7 +20,7 @@
 #define CYPDF_OCLASS_NAME           0x0007
 #define CYPDF_OCLASS_ARRAY          0x0008
 #define CYPDF_OCLASS_DICT           0x0009
-// #define CYPDF_OCLASS_STREAM         0x000A, a stream is always an indirect object
+#define CYPDF_OCLASS_STREAM         0x000A      /* a stream is always an indirect object */
 
 #define CYPDF_OCLASS_ANY            0x00FF
 
