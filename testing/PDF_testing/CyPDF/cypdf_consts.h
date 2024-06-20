@@ -13,7 +13,7 @@
 
 
 /* CYPDF new line string */
-#define CYPDF_NEW_LINE              (CYPDF_ASCII_CR)(CYPDF_ASCII_LF)
+#define CYPDF_NEW_LINE              "\x0D\x0A"  /* Carriage return followed by line feed */
 
 
 /* CYPDF boolean values */

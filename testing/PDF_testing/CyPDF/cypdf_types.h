@@ -2,6 +2,9 @@
 #define CYPDF_TYPES_H
 
 
+#include <stdint.h>
+
+
 
 /* native OS integer types */
 typedef signed int          CYPDF_INT;
@@ -62,11 +65,6 @@ typedef struct _CYPDF_Rect {
     CYPDF_REAL right;
     CYPDF_REAL top;
 } CYPDF_Rect;
-
-
-typedef void* (*CYPDF_Alloc_Func)(CYPDF_SIZE size);
-
-typedef void (*CYPDF_Free_Func)(void* ptr);
 
 
 
