@@ -22,7 +22,7 @@
 
 
 /* CYPDF limits */
-
+#define CYPDF_INDIRECT_OBJ_MAX      8388607     /* 2^23 - 1 */
 
 
 
