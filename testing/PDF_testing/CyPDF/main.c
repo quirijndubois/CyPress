@@ -9,6 +9,7 @@ int main(void) {
     FILE* fp = fopen("test.txt", "wb");
     CYPDF_Doc_Write(fp, pdf);
     CYPDF_Doc_Free(pdf);
+    fclose(fp);
 
     return 0;
 }

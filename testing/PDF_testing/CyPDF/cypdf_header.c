@@ -29,7 +29,6 @@ CYPDF_File_Header* CYPDF_File_Header_New() {
         } else {
             file_header->hival_bytes_size = sizeof(CYPDF_HIVAL_BYTES) - 1;
             CYPDF_StrToBytes(CYPDF_HIVAL_BYTES, file_header->hival_bytes, file_header->hival_bytes_size);
-            printf(CYPDF_HIVAL_BYTES);
         }
     }
 
