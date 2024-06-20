@@ -50,7 +50,10 @@ typedef struct _CYPDF_Obj_Header {
 } CYPDF_Obj_Header;
 
 
-typedef void CYPDF_Object;
+typedef struct _CYPDF_Obj_Funcs {
+    CYPDF_Free_Func         free;
+    CYPDF_Write_Func        write;
+} CYPDF_Obj_Funcs;
 
 
 CYPDF_Obj_Header* CYPDF_Obj_Header_New(CYPDF_BOOL direct, CYPDF_BOOL indirect, CYPDF_UINT32 obj_id, CYPDF_UINT16 obj_gen, CYPDF_UINT16 obj_class, CYPDF_UINT16 obj_subclass);

@@ -1,3 +1,6 @@
+#include <stdio.h>
+#include <stdlib.h>
+
 #include "cypdf_object.h"
 #include "cypdf_consts.h"
 
@@ -12,7 +15,13 @@ CYPDF_Obj_Header* CYPDF_Obj_Header_New(CYPDF_BOOL direct, CYPDF_BOOL indirect, C
         free(obj_header);
         return NULL;
     }
-    obj_header->obj_id = direct * CYPDF_OTYPE_DIRECT | indirect * CYPDF_OTYPE_INDIRECT | ID;
+    obj_header->obj_id = ID;
+    if (direct) {
+        obj_header->obj_id |= CYPDF_OTYPE_DIRECT;
+    }
+    if (indirect) {
+        obj_header->obj_id |= CYPDF_OTYPE_INDIRECT;
+    }
     obj_header->obj_gen = obj_gen;
     if (obj_class > CYPDF_OCLASS_COUNT) {
         printf("Unknown object class.\n");

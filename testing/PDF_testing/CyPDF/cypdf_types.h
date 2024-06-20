@@ -2,7 +2,7 @@
 #define CYPDF_TYPES_H
 
 
-#include <stdint.h>
+#include <stdio.h>
 
 
 
@@ -65,6 +65,15 @@ typedef struct _CYPDF_Rect {
     CYPDF_REAL right;
     CYPDF_REAL top;
 } CYPDF_Rect;
+
+
+typedef void CYPDF_Object;
+
+
+/* CYPDF function types */
+typedef void (*CYPDF_Free_Func)(CYPDF_Object*);
+
+typedef void (*CYPDF_Write_Func)(FILE*, CYPDF_Object*);
 
 
 
