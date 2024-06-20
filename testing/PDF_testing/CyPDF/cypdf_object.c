@@ -3,6 +3,7 @@
 
 #include "cypdf_object.h"
 #include "cypdf_consts.h"
+#include "cypdf_null.h"
 
 
 
@@ -38,4 +39,14 @@ CYPDF_Obj_Header* CYPDF_Obj_Header_New(CYPDF_BOOL direct, CYPDF_BOOL indirect, C
 
 void CYPDF_Obj_Header_Free(CYPDF_Obj_Header* obj_header) {
     free(obj_header);
+}
+
+void CYPDF_Obj_Write(FILE* fp, CYPDF_Object* obj) {
+    CYPDF_Null_Obj* _obj = (CYPDF_Null_Obj*)obj;
+    _obj->funcs.write(fp, obj);
+}
+
+void CYPDF_Obj_Free(CYPDF_Object* obj) {
+    CYPDF_Null_Obj* _obj = (CYPDF_Null_Obj*)obj;
+    _obj->funcs.free(obj);
 }

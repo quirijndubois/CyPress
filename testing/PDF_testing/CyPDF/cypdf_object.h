@@ -60,6 +60,10 @@ CYPDF_Obj_Header* CYPDF_Obj_Header_New(CYPDF_BOOL direct, CYPDF_BOOL indirect, C
 
 void CYPDF_Obj_Header_Free(CYPDF_Obj_Header* obj_header);
 
+void CYPDF_Obj_Write(FILE* fp, CYPDF_Object* obj);
+
+void CYPDF_Obj_Free(CYPDF_Object* obj);
+
 
 
 #endif /* CYPDF_OBJECT_H */

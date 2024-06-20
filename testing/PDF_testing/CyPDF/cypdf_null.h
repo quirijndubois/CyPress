@@ -8,6 +8,7 @@
 
 typedef struct _CYPDF_Null_Obj {
     CYPDF_Obj_Header    header;
+    CYPDF_Obj_Funcs     funcs;
 } CYPDF_Null_Obj;
 
 
