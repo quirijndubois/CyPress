@@ -2,4 +2,4 @@
 
 
 
-CYPDF_Catalog_Obj* CYPDF_Catalog_Obj_New()
+CYPDF_Catalog_Obj* CYPDF_Catalog_Obj_New();
