@@ -33,6 +33,9 @@
 #define CYPDF_OSUBCLASS_ANY         0xFF00
 
 
+#define CYPDF_DEFAULT_OGEN          0x0000
+
+
 /* object_id structure:
     byte 1:     direct-object
     byte 2:     indirect-object

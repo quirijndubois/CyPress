@@ -7,11 +7,18 @@
 
 
 
-typedef struct _CYPDF_List {
-    CYPDF_SIZE          item_count;
+typedef struct _CYPDF_Obj_List {
+    CYPDF_SIZE          element_count;
     CYPDF_SIZE          list_size;
-    void**              elements;
-} CYPDF_List;
+    CYPDF_Object**      elements;
+} CYPDF_Obj_List;
+
+
+CYPDF_Obj_List* CYPDF_Obj_List_New();
+
+void CYPDF_Obj_List_Append(CYPDF_Obj_List* list, CYPDF_Object* obj);
+
+void CYPDF_Obj_List_Free(CYPDF_Obj_List* list);
 
 
 
