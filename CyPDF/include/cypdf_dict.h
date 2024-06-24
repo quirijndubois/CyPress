@@ -16,13 +16,13 @@ typedef struct _CYPDF_Dict_Obj {
 } CYPDF_Dict_Obj;
 
 
-typedef struct _CYPDF_Dict_Entry {
+typedef struct _CYPDF_Dict_Obj_Entry {
     CYPDF_Name_Obj*     key_obj;
     CYPDF_Object*       value_obj;
-} CYPDF_Dict_Entry;
+} CYPDF_Dict_Obj_Entry;
 
 
-CYPDF_Dict_Obj* CYPDF_Dict_Obj_New(CYPDF_Doc* pdf_doc, CYPDF_BOOL direct, CYPDF_BOOL indirect);
+void CYPDF_Dict_Obj_Free(CYPDF_Object* obj);
 
 
 
