@@ -2,7 +2,6 @@
 #define CYPDF_DICT_H
 
 
-#include "cypdf_doc.h"
 #include "cypdf_list.h"
 #include "cypdf_name.h"
 #include "cypdf_object.h"
