@@ -12,7 +12,7 @@ typedef struct _CYPDF_Stream_Obj {
     CYPDF_Dict_Obj          dict;
     CYPDF_BYTE*             value;
     CYPDF_SIZE              size;
-} CYPDF_Stream;
+} CYPDF_Stream_Obj;
 
 
 

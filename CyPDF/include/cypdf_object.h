@@ -2,6 +2,7 @@
 #define CYPDF_OBJECT_H
 
 
+#include "cypdf_doc.h"
 #include "cypdf_types.h"
 
 
@@ -22,6 +23,8 @@ enum CYPDF_OCLASS {
     CYPDF_OCLASS_DICT,
     CYPDF_OCLASS_STREAM,        /* a stream is always an indirect object */
 
+    CYPDF_OCLASS_CATALOG,
+
     CYPDF_OCLASS_COUNT,
 
     CYPDF_OCLASS_NONE,
@@ -29,17 +32,6 @@ enum CYPDF_OCLASS {
 };
 
 #define CYPDF_OCLASS_ANY            0x00FF
-
-enum CYPDF_OSUBCLASS {
-    CYPDF_OSUBCLASS_CATALOG = 0,
-
-    CYPDF_OSUBCLASS_COUNT,
-
-    CYPDF_OSUBCLASS_NONE,
-    CYPDF_OSUBCLASS_UNKNOWN,
-};
-
-#define CYPDF_OSUBCLASS_ANY         0xFF00
 
 
 #define CYPDF_DEFAULT_OGEN          0x0000
@@ -68,9 +60,11 @@ typedef struct _CYPDF_Obj_Funcs {
 } CYPDF_Obj_Funcs;
 
 
-CYPDF_Obj_Header* CYPDF_Obj_Header_New(CYPDF_BOOL direct, CYPDF_BOOL indirect, CYPDF_UINT32 obj_id, CYPDF_UINT16 obj_gen, CYPDF_UINT16 obj_class, CYPDF_UINT16 obj_subclass);
+CYPDF_Obj_Header* CYPDF_Obj_Header_New(CYPDF_BOOL direct, CYPDF_BOOL indirect, CYPDF_UINT32 ID, CYPDF_UINT16 gen, CYPDF_UINT16 class);
 
 void CYPDF_Obj_Header_Free(CYPDF_Obj_Header* obj_header);
+
+CYPDF_Object* CYPDF_Obj_New(CYPDF_Doc* pdf, CYPDF_BOOL direct, CYPDF_BOOL indirect, enum CYPDF_OCLASS class);
 
 void CYPDF_Obj_Write(FILE* fp, CYPDF_Object* obj);
 
