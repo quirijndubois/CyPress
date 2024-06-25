@@ -11,24 +11,33 @@
 #define CYPDF_OTYPE_INDIRECT        0x40000000
 #define CYPDF_OTYPE_ANY             (CYPDF_OTYPE_DIRECT) | (CYPDF_OTYPE_INDIRECT)
 
-#define CYPDF_OCLASS_NONE           0x0000
-#define CYPDF_OCLASS_UNKNOWN        0x0001
-#define CYPDF_OCLASS_NULL           0x0002
-#define CYPDF_OCLASS_BOOL           0x0003
-#define CYPDF_OCLASS_NUMBER         0x0004
-#define CYPDF_OCLASS_REAL           0x0005
-#define CYPDF_OCLASS_STRING         0x0006
-#define CYPDF_OCLASS_NAME           0x0007
-#define CYPDF_OCLASS_ARRAY          0x0008
-#define CYPDF_OCLASS_DICT           0x0009
-#define CYPDF_OCLASS_STREAM         0x000A      /* a stream is always an indirect object */
-#define CYPDF_OCLASS_COUNT          0x000A
+enum CYPDF_OCLASS {
+    CYPDF_OCLASS_NULL = 0,
+    CYPDF_OCLASS_BOOL,
+    CYPDF_OCLASS_NUMBER,
+    CYPDF_OCLASS_REAL,
+    CYPDF_OCLASS_STRING,
+    CYPDF_OCLASS_NAME,
+    CYPDF_OCLASS_ARRAY,
+    CYPDF_OCLASS_DICT,
+    CYPDF_OCLASS_STREAM,        /* a stream is always an indirect object */
+
+    CYPDF_OCLASS_COUNT,
+
+    CYPDF_OCLASS_NONE,
+    CYPDF_OCLASS_UNKNOWN,
+};
 
 #define CYPDF_OCLASS_ANY            0x00FF
 
-#define CYPDF_OSUBCLASS_NONE        0x0000
-#define CYPDF_OSUBCLASS_UNKNOWN     0x0100
-#define CYPDF_OSUBCLASS_COUNT       0x0001
+enum CYPDF_OSUBCLASS {
+    CYPDF_OSUBCLASS_CATALOG = 0,
+
+    CYPDF_OSUBCLASS_COUNT,
+
+    CYPDF_OSUBCLASS_NONE,
+    CYPDF_OSUBCLASS_UNKNOWN,
+};
 
 #define CYPDF_OSUBCLASS_ANY         0xFF00
 
