@@ -2,11 +2,13 @@
 
 #include "cypdf_list.h"
 #include "cypdf_object.h"
+#include "cypdf_types.h"
 
 
 
-CYPDF_List* CYPDF_List_New() {
+CYPDF_List* CYPDF_List_New(CYPDF_Free_Func free) {
     CYPDF_List* list = calloc(1, sizeof(CYPDF_List));
+    list->free_element = free;
     return list;
 }
 

@@ -16,8 +16,7 @@ CYPDF_Dict_Obj* CYPDF_Dict_Obj_New(CYPDF_Doc* pdf, CYPDF_BOOL direct, CYPDF_BOOL
     CYPDF_Dict_Obj* dict = (CYPDF_Dict_Obj*)CYPDF_Obj_New(pdf, direct, indirect, CYPDF_OCLASS_DICT);
     dict->funcs.write = CYPDF_Dict_Obj_Write;
     dict->funcs.free = CYPDF_Dict_Obj_Free;
-    dict->entry_list = CYPDF_List_New();
-    dict->entry_list->free_element = CYPDF_Dict_Obj_Entry_Free;
+    dict->entry_list = CYPDF_List_New(CYPDF_Dict_Obj_Entry_Free);
 }
 
 void CYPDF_Dict_Obj_Append(CYPDF_Dict_Obj* dict, CYPDF_Name_Obj* key, CYPDF_Object* value) {
