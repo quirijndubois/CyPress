@@ -87,7 +87,7 @@ CYPDF_Object* CYPDF_Obj_New(CYPDF_Doc* pdf, CYPDF_BOOL direct, CYPDF_BOOL indire
     CYPDF_Object* obj = calloc(1, size);
     CYPDF_Obj_Header* header = CYPDF_Obj_Header_New(direct, indirect, pdf->obj_count, CYPDF_DEFAULT_OGEN, class);
     memcpy(obj, header, sizeof(*header));
-    free(header);
+    CYPDF_Obj_Header_Free(header);
 
     return obj;
 }
