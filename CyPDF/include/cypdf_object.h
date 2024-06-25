@@ -37,6 +37,9 @@ enum CYPDF_OCLASS {
 #define CYPDF_DEFAULT_OGEN          0x0000
 
 
+#define CYPDF_OBJ_ID                0x00FFFFFF
+
+
 /* object_id structure:
     byte 1:     direct-object
     byte 2:     indirect-object
@@ -66,7 +69,9 @@ void CYPDF_Obj_Header_Free(CYPDF_Obj_Header* obj_header);
 
 CYPDF_Object* CYPDF_Obj_New(CYPDF_Doc* pdf, CYPDF_BOOL direct, CYPDF_BOOL indirect, enum CYPDF_OCLASS class);
 
-void CYPDF_Obj_Write(FILE* fp, CYPDF_Object* obj);
+void CYPDF_Obj_Write_Direct(FILE* fp, CYPDF_Object* obj);
+
+void CYPDF_Obj_Write_Indirect(FILE* fp, CYPDF_Object* obj);
 
 void CYPDF_Obj_Free(CYPDF_Object* obj);
 

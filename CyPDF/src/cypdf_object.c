@@ -92,9 +92,25 @@ CYPDF_Object* CYPDF_Obj_New(CYPDF_Doc* pdf, CYPDF_BOOL direct, CYPDF_BOOL indire
     return obj;
 }
 
-void CYPDF_Obj_Write(FILE* fp, CYPDF_Object* obj) {
+void CYPDF_Obj_Write_Direct(FILE* fp, CYPDF_Object* obj) {
     CYPDF_Null_Obj* _obj = (CYPDF_Null_Obj*)obj;
+    CYPDF_BOOL indirect = _obj->header.obj_class & CYPDF_OTYPE_INDIRECT;
+    if (indirect) {
+        fprintf(fp, "%u %hu obj\n", _obj->header.obj_id & CYPDF_OBJ_ID, _obj->header.obj_gen);
+    }
     _obj->funcs.write(fp, obj);
+    if (indirect) {
+        fprintf(fp, "endobj\n");
+    }
+}
+
+void CYPDF_Obj_Write_Indirect(FILE* fp, CYPDF_Object* obj) {
+    CYPDF_Null_Obj* _obj = (CYPDF_Null_Obj*)obj;
+    if (!(_obj->header.obj_class & CYPDF_OTYPE_INDIRECT)) {
+        CYPDF_Obj_Write_Direct(fp, obj);
+    } else {
+        fprintf(fp, "%u %hu R", _obj->header.obj_id & CYPDF_OBJ_ID, _obj->header.obj_gen);
+    }
 }
 
 void CYPDF_Obj_Free(CYPDF_Object* obj) {

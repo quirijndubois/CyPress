@@ -8,7 +8,7 @@
 
 
 
-void CYPDF_fwrite_nl(const void* buffer, size_t element_size, size_t element_count, FILE* stream) {
+void CYPDF_fwrite_LF(const void* buffer, size_t element_size, size_t element_count, FILE* stream) {
     fwrite(buffer, element_size, element_count, stream);
     CYPDF_BYTE* new_line = malloc(sizeof(CYPDF_NEW_LINE) - 1);
     CYPDF_StrToBytes(CYPDF_NEW_LINE, new_line, sizeof(CYPDF_NEW_LINE) - 1);
