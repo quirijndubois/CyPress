@@ -58,21 +58,33 @@ CYPDF_Object* CYPDF_Obj_New(CYPDF_UINT32 ID, CYPDF_BOOL direct, CYPDF_BOOL indir
         break;
     case CYPDF_OCLASS_BOOL:
         size = sizeof(CYPDF_Bool_Obj);
+        write = CYPDF_BOOL_OBJ_WRITE;
+        free = CYPDF_BOOL_OBJ_FREE;
         break;
     case CYPDF_OCLASS_NUMBER:
         size = sizeof(CYPDF_Number_Obj);
+        write = CYPDF_NUMBER_OBJ_WRITE;
+        free = CYDPF_NUMBER_OBJ_FREE;
         break;
     case CYPDF_OCLASS_REAL:
         size = sizeof(CYPDF_Real_Obj);
+        write = CYPDF_REAL_OBJ_WRITE;
+        free = CYPDF_REAL_OBJ_FREE;
         break;
     case CYPDF_OCLASS_STRING:
         size = sizeof(CYPDF_String_Obj);
+        write = CYPDF_STRING_OBJ_WRITE;
+        free = CYPDF_STRING_OBJ_FREE;
         break;
     case CYPDF_OCLASS_NAME:
         size = sizeof(CYPDF_Name_Obj);
+        write = CYPDF_NAME_OBJ_WRITE;
+        free = CYPDF_NAME_OBJ_FREE;
         break;
     case CYPDF_OCLASS_ARRAY:
         size = sizeof(CYPDF_Array_Obj);
+        write = CYPDF_ARRAY_OBJ_WRITE;
+        free = CYPDF_ARRAY_OBJ_FREE;
         break;
     case CYPDF_OCLASS_DICT:
         size = sizeof(CYPDF_Dict_Obj);
@@ -94,9 +106,7 @@ CYPDF_Object* CYPDF_Obj_New(CYPDF_UINT32 ID, CYPDF_BOOL direct, CYPDF_BOOL indir
         break;
     }
     CYPDF_Object* obj = calloc(1, size);
-    CYPDF_Obj_Header* header = CYPDF_Obj_Header_New(direct, indirect, ID, CYPDF_DEFAULT_OGEN, class, write, free);
-    memcpy(obj, header, sizeof(*header));
-    CYPDF_Obj_Header_Free(header);
+    obj = CYPDF_Obj_Header_New(direct, indirect, ID, CYPDF_DEFAULT_OGEN, class, write, free);
 
     return obj;
 }

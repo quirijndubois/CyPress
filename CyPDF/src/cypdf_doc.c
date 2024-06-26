@@ -2,6 +2,8 @@
 #include <stdlib.h>
 
 #include "cypdf_doc.h"
+#include "cypdf_catalog.h"
+#include "cypdf_header.h"
 
 
 
@@ -26,6 +28,7 @@ void CYPDF_Doc_Write(FILE* fp, CYPDF_Doc* pdf_doc) {
     }
 
     CYPDF_File_Header_Write(fp, pdf_doc->file_header);
+
 }
 
 void CYPDF_Doc_Free(CYPDF_Doc* pdf_doc) {
