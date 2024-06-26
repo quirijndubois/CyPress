@@ -4,7 +4,6 @@
 
 #include <stdio.h>
 
-#include "cypdf_dict.h"
 #include "cypdf_list.h"
 #include "cypdf_name.h"
 #include "cypdf_object.h"
@@ -12,10 +11,15 @@
 
 
 
+#define CYPDF_DICT_OBJ_WRITE            CYPDF_Dict_Obj_Write
+#define CYPDF_DICT_OBJ_FREE             CYPDF_Dict_Obj_Free
+
+#define CYPDF_DICT_OBJ_ENTRY_FREE       CYPDF_Dict_Obj_Entry_Free
+
+
 typedef struct _CYPDF_Dict_Obj {
-    CYPDF_Obj_Header    header;
-    CYPDF_Obj_Funcs     funcs;
-    CYPDF_List*     entry_list;
+    CYPDF_Obj_Header*       header;
+    CYPDF_List*             entry_list;
 } CYPDF_Dict_Obj;
 
 
@@ -25,11 +29,11 @@ typedef struct _CYPDF_Dict_Obj_Entry {
 } CYPDF_Dict_Obj_Entry;
 
 
-CYPDF_Dict_Obj* CYPDF_Dict_Obj_New(CYPDF_Doc* pdf, CYPDF_BOOL direct, CYPDF_BOOL indirect);
+CYPDF_Dict_Obj* CYPDF_Dict_Obj_New(CYPDF_UINT32 ID, CYPDF_BOOL direct, CYPDF_BOOL indirect);
 
 void CYPDF_Dict_Obj_Append(CYPDF_Dict_Obj* dict, CYPDF_Name_Obj* key, CYPDF_Object* value);
 
-void CYPDF_Dict_Obj_Write(FILE* fp, CYPDF_Dict_Obj* dict);
+void CYPDF_Dict_Obj_Write(FILE* fp, CYPDF_Object* dict);
 
 void CYPDF_Dict_Obj_Free(CYPDF_Object* obj);
 

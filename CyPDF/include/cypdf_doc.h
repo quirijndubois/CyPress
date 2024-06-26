@@ -4,6 +4,7 @@
 
 #include "cypdf_catalog.h"
 #include "cypdf_header.h"
+#include "cypdf_types.h"
 
 
 

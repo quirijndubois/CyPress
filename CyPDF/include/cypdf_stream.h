@@ -2,8 +2,7 @@
 #define CYPDF_STREAM_H
 
 
-#include "cypdf_dict.h"
-#include "cypdf_object.h"
+
 
 
 

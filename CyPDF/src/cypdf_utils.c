@@ -1,8 +1,6 @@
-#include <stdarg.h>
 #include <stdio.h>
 
 #include "cypdf_utils.h"
-#include "cypdf_consts.h"
 #include "cypdf_types.h"
 
 

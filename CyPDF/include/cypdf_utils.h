@@ -2,8 +2,6 @@
 #define CYPDF_UTILS_H
 
 
-#include <stdio.h>
-
 #include "cypdf_types.h"
 
 

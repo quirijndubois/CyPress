@@ -2,7 +2,7 @@
 #define CYPDF_STRING_H
 
 
-#include "cypdf_object.h"
+
 
 
 

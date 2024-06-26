@@ -22,5 +22,5 @@ void CYPDF_Write_Comment(FILE* fp, CYPDF_BYTE* src, size_t size) {
         printf("Error: Passed invalid src pointer to CYPDF_Write_Comment.\n");
     }
     fputc('%', fp);
-    CYPDF_fwrite_nl(src, sizeof(src[0]), size, fp);
+    CYPDF_fwrite_LF(src, sizeof(src[0]), size, fp);
 }

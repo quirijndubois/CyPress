@@ -1,22 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "cypdf_consts.h"
 #include "cypdf_dict.h"
-#include "cypdf_doc.h"
+#include "cypdf_consts.h"
 #include "cypdf_list.h"
 #include "cypdf_name.h"
 #include "cypdf_object.h"
-#include "cypdf_print.h"
 #include "cypdf_types.h"
 
 
 
-CYPDF_Dict_Obj* CYPDF_Dict_Obj_New(CYPDF_Doc* pdf, CYPDF_BOOL direct, CYPDF_BOOL indirect) {
-    CYPDF_Dict_Obj* dict = (CYPDF_Dict_Obj*)CYPDF_Obj_New(pdf, direct, indirect, CYPDF_OCLASS_DICT);
-    dict->funcs.write = CYPDF_Dict_Obj_Write;
-    dict->funcs.free = CYPDF_Dict_Obj_Free;
+CYPDF_Dict_Obj* CYPDF_Dict_Obj_New(CYPDF_UINT32 ID, CYPDF_BOOL direct, CYPDF_BOOL indirect) {
+    CYPDF_Dict_Obj* dict = (CYPDF_Dict_Obj*)CYPDF_Obj_New(ID, direct, indirect, CYPDF_OCLASS_DICT);
     dict->entry_list = CYPDF_List_New(CYPDF_Dict_Obj_Entry_Free);
+
+    return dict;
 }
 
 void CYPDF_Dict_Obj_Append(CYPDF_Dict_Obj* dict, CYPDF_Name_Obj* key, CYPDF_Object* value) {
@@ -24,7 +22,8 @@ void CYPDF_Dict_Obj_Append(CYPDF_Dict_Obj* dict, CYPDF_Name_Obj* key, CYPDF_Obje
     CYPDF_List_Append(dict->entry_list, entry);
 }
 
-void CYPDF_Dict_Obj_Write(FILE* fp, CYPDF_Dict_Obj* dict) {
+void CYPDF_Dict_Obj_Write(FILE* fp, CYPDF_Object* obj) {
+    CYPDF_Dict_Obj* dict = (CYPDF_Dict_Obj*)obj;
     CYPDF_List* list = dict->entry_list;
     fprintf(fp, "<<%s", CYPDF_NEW_LINE);
     for(size_t i = 0; i < list->element_count; ++i) {

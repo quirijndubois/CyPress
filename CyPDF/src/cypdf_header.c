@@ -3,11 +3,9 @@
 #include <string.h>
 
 #include "cypdf_header.h"
-#include "cypdf_consts.h"
 #include "cypdf_print.h"
 #include "cypdf_utils.h"
 #include "cypdf_version.h"
-
 
 
 CYPDF_File_Header* CYPDF_File_Header_New() {

@@ -2,6 +2,8 @@
 #define CYPDF_HEADER_H
 
 
+#include <stdio.h>
+
 #include "cypdf_types.h"
 
 
