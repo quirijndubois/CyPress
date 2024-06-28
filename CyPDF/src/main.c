@@ -6,7 +6,7 @@
 
 int main(void) {
     CYPDF_Doc* pdf = CYPDF_Doc_New();
-    FILE* fp = fopen("test.txt", "wb");
+    FILE* fp = fopen("CyPDF/test.txt", "wb");
     CYPDF_Doc_Write(fp, pdf);
     CYPDF_Doc_Free(pdf);
     fclose(fp);
