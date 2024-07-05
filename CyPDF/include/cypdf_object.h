@@ -40,10 +40,10 @@ enum CYPDF_OCLASS {
 
 
 /* object_id structure:
-    byte 1:     direct-object
-    byte 2:     indirect-object
-    byte 3-8:   reserved
-    byte 9-32:  object-id
+    bit 1:     direct-object
+    bit 2:     indirect-object
+    bit3-8:   reserved
+    bit 9-32:  object-id
 
     real Object-ID is described "obj_id & 0x00FFFFFF"
 */
