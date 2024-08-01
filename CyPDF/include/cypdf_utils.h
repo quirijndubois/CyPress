@@ -2,6 +2,8 @@
 #define CYPDF_UTILS_H
 
 
+#include <ctype.h>
+
 #include "cypdf_types.h"
 
 
@@ -10,6 +12,10 @@
 
 
 void CYPDF_StrToBytes(const char* src, CYPDF_BYTE* dest, size_t size);
+
+void* CYPDF_safe_malloc(size_t size);
+
+void* CYPDF_safe_calloc(size_t element_count, size_t element_size);
 
 
 
