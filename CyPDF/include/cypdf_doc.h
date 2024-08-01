@@ -19,10 +19,26 @@ typedef struct _CYPDF_Doc {
 } CYPDF_Doc;
 
 
+/**
+ * @brief Creates new CYPDF_Doc.
+ * 
+ * @return CYPDF_Doc* | Returns NULL if memory allocation fails.
+ */
 CYPDF_Doc* CYPDF_Doc_New();
 
+/**
+ * @brief Writes pdf_doc to fp. Does nothing if fp == NULL or pdf_doc == NULL.
+ * 
+ * @param fp 
+ * @param pdf_doc 
+ */
 void CYPDF_Doc_Write(FILE* fp, CYPDF_Doc* pdf_doc);
 
+/**
+ * @brief Frees pdf_doc. Does nothing if pdf_doc is NULL.
+ * 
+ * @param pdf_doc 
+ */
 void CYPDF_Doc_Free(CYPDF_Doc* pdf_doc);
 
 

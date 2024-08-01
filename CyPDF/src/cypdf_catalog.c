@@ -12,17 +12,28 @@
 
 CYPDF_Catalog_Obj* CYPDF_Catalog_Obj_New(CYPDF_UINT32 ID, CYPDF_BOOL direct, CYPDF_BOOL indirect) {
     CYPDF_Catalog_Obj* catalog = (CYPDF_Catalog_Obj*)CYPDF_Obj_New(ID, direct, indirect, CYPDF_OCLASS_CATALOG);
-    catalog->dict = CYPDF_Dict_Obj_New(ID, CYPDF_TRUE, CYPDF_FALSE);
+    if (catalog != NULL) {
+        catalog->dict = CYPDF_Dict_Obj_New(ID, CYPDF_TRUE, CYPDF_FALSE);
+    }
 
     return catalog;
 }
 
 void CYPDF_Catalog_Obj_Write(FILE* fp, CYPDF_Object* obj) {
+    if (fp == NULL || obj == NULL) {
+        return;
+    }
+
     CYPDF_Catalog_Obj* catalog = (CYPDF_Catalog_Obj*)obj;
-    CYPDF_Obj_Write_Direct(fp, catalog);
+
+    /* Needs to be implemented. */
 }
 
 void CYPDF_Catalog_Obj_Free(CYPDF_Object* obj) {
+    if (obj == NULL) {
+        return;
+    }
+
     CYPDF_Catalog_Obj* _obj = (CYPDF_Catalog_Obj*)obj;
     CYPDF_Obj_Free(_obj->dict);
     free(_obj);

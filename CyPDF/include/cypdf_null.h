@@ -2,7 +2,10 @@
 #define CYPDF_NULL_H
 
 
+#include <stdio.h>
+
 #include "cypdf_object.h"
+#include "cypdf_types.h"
 
 
 
@@ -10,15 +13,35 @@
 #define CYPDF_NULL_OBJ_FREE             CYPDF_Null_Obj_Free
 
 
+/* CYPDF_Null_Obj struct */
 typedef struct _CYPDF_Null_Obj {
     CYPDF_Obj_Header*       header;
 } CYPDF_Null_Obj;
 
 
+/**
+ * @brief Creates new CYPDF_Null_Obj.
+ * 
+ * @param ID 
+ * @param direct 
+ * @param indirect 
+ * @return CYPDF_Null_Obj* | Returns NULL if object creation fails.
+ */
 CYPDF_Null_Obj* CYPDF_Null_Obj_New(CYPDF_UINT32 ID, CYPDF_BOOL direct, CYPDF_BOOL indirect);
 
-void CYPDF_Null_Obj_Write();
+/**
+ * @brief Writes null to fp.
+ * 
+ * @param fp Stream to be written to.
+ * @param null 
+ */
+void CYPDF_Null_Obj_Write(FILE* __attribute_maybe_unused__ fp, CYPDF_Null_Obj* __attribute_maybe_unused__ null);
 
+/**
+ * @brief Frees NULL. Does nothing if obj is NULL.
+ * 
+ * @param obj 
+ */
 void CYPDF_Null_Obj_Free(CYPDF_Object* obj);
 
 

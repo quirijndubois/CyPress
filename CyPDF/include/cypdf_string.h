@@ -20,10 +20,31 @@ typedef struct _CYPDF_String_obj {
 } CYPDF_String_Obj;
 
 
-CYPDF_String_Obj* CPYDF_String_Obj_New(CYPDF_UINT32 ID, CYPDF_BOOL direct, CYPDF_BOOL indirect, CYPDF_BYTE* value, CYPDF_SIZE size);
+/**
+ * @brief Creates new CYPDF_String_Obj initialized with value. If memory allocation for obj->value fails, obj->value is set to NULL and obj->size is set to 0.
+ * 
+ * @param ID 
+ * @param direct 
+ * @param indirect 
+ * @param value 
+ * @param vsize Size of value in bytes.
+ * @return CYPDF_String_Obj* | Returns NULL if object creation fails.
+ */
+CYPDF_String_Obj* CPYDF_String_Obj_New(CYPDF_UINT32 ID, CYPDF_BOOL direct, CYPDF_BOOL indirect, CYPDF_BYTE* value, CYPDF_SIZE vsize);
 
+/**
+ * @brief Writes obj to fp. Does nothing if fp == NULL or obj == NULL.
+ * 
+ * @param fp 
+ * @param obj 
+ */
 void CPYDF_String_Obj_Write(FILE* fp, CYPDF_Object* obj);
 
+/**
+ * @brief Frees obj. Does nothing if obj is NULL.
+ * 
+ * @param obj 
+ */
 void CYPDF_String_Obj_Free(CYPDF_Object* obj);
 
 

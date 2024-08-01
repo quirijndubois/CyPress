@@ -6,18 +6,37 @@
 
 
 
+/* CYPDF_List struct */
 typedef struct _CYPDF_List {
-    CYPDF_SIZE          element_count;
-    CYPDF_SIZE          list_size;
-    CYPDF_Object**      elements;
-    CYPDF_Free_Func     free_element;
+    CYPDF_SIZE          element_size;       /* Size of a single element in bytes. */
+    CYPDF_SIZE          element_count;      /* Number of objects in elements. */
+    void**              elements;           /* Array of void pointers likely to be objects or dictionary entries. */
+    CYPDF_Free_Func     free_element;       /* Free function corresponding to objects in elements. */
 } CYPDF_List;
 
 
-CYPDF_List* CYPDF_List_New();
+/**
+ * @brief Creates new CYPDF_List.
+ * 
+ * @param free_func 
+ * @return CYPDF_List* | Returns NULL if memory allocation fails.
+ */
+CYPDF_List* CYPDF_List_New(CYPDF_Free_Func free_func);
 
-void CYPDF_List_Append(CYPDF_List* list, void* element);
+/**
+ * @brief Appends element to list->elements. Does nothing to list if memory allocation for element fails.
+ * 
+ * @param list 
+ * @param element 
+ * @return int | Returns 0 on success and -1 on failure.
+ */
+int CYPDF_List_Append(CYPDF_List* list, void* element);
 
+/**
+ * @brief Frees list. Does nothing if list is NULL.
+ * 
+ * @param list 
+ */
 void CYPDF_List_Free(CYPDF_List* list);
 
 
