@@ -9,7 +9,7 @@
 
 
 
-#define CYPDF_WRITE_STRING          CPYDF_Write_String
+#define CYPDF_WRITE_STRING          CYPDF_Write_String
 #define CYPDF_FREE_STRING           CYPDF_Free_String
 
 
