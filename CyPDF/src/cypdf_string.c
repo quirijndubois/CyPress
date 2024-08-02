@@ -26,7 +26,7 @@ CYPDF_Obj_String* CPYDF_New_String(CYPDF_BOOL indirect, CYPDF_UINT32 ID, CYPDF_B
     return string;
 }
 
-void CPYDF_String_Obj_Write(FILE* fp, CYPDF_Object* obj) {
+void CYPDF_Write_String(FILE* fp, CYPDF_Object* obj) {
     if (fp == NULL || obj == NULL) {
         return;
     }
@@ -35,7 +35,7 @@ void CPYDF_String_Obj_Write(FILE* fp, CYPDF_Object* obj) {
     fwrite(string->value, sizeof(string->value[0]), string->size, fp);
 }
 
-void CYPDF_Obj_String_Free(CYPDF_Object* obj) {
+void CYPDF_Free_String(CYPDF_Object* obj) {
     if (obj) {
         CYPDF_Obj_String* string = (CYPDF_Obj_String*)obj;
         free(string->value);

@@ -37,7 +37,7 @@ CYPDF_Obj_String* CPYDF_New_String(CYPDF_BOOL indirect, CYPDF_UINT32 ID, CYPDF_B
  * @param fp 
  * @param obj 
  */
-void CPYDF_Write_String(FILE* fp, CYPDF_Object* obj);
+void CYPDF_Write_String(FILE* fp, CYPDF_Object* obj);
 
 /**
  * @brief Frees obj. Does nothing if obj is NULL.
