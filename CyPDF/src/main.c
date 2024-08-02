@@ -5,10 +5,10 @@
 
 
 int main(void) {
-    CYPDF_Doc* pdf = CYPDF_Doc_New();
+    CYPDF_Doc* pdf = CYPDF_New_Doc();
     FILE* fp = fopen("CyPDF/test.txt", "wb");
-    CYPDF_Doc_Write(fp, pdf);
-    CYPDF_Doc_Free(pdf);
+    CYPDF_Write_Doc(fp, pdf);
+    CYPDF_Free_Doc(pdf);
     fclose(fp);
 
     return 0;

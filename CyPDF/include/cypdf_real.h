@@ -9,27 +9,26 @@
 
 
 
-#define CYPDF_REAL_OBJ_WRITE            CYPDF_Real_Obj_Write
-#define CYPDF_REAL_OBJ_FREE             CYPDF_Real_Obj_Free
+#define CYPDF_WRITE_REAL                CYPDF_Write_Real
+#define CYPDF_FREE_REAL                 CYPDF_Free_Real
 
 
-/* CYPDF_Real_Obj struct */
-typedef struct _CYPDF_Real_Obj {
-    CYPDF_Obj_Header*       header;
+/* CYPDF_Obj_Real struct */
+typedef struct _CYPDF_Obj_Real {
+    CYPDF_Obj_Header        header;
     CYPDF_REAL              value;
-} CYPDF_Real_Obj;
+} CYPDF_Obj_Real;
 
 
 /**
- * @brief Creates new CYPDF_Real_Obj initialized with value.
+ * @brief Creates new CYPDF_Obj_Real initialized with value.
  * 
- * @param ID 
- * @param direct 
  * @param indirect 
+ * @param ID 
  * @param value 
- * @return CYPDF_Real_Obj* | Returns NULL if object creation fails.
+ * @return CYPDF_Obj_Real* | Returns NULL if object creation fails.
  */
-CYPDF_Real_Obj* CYPDF_Real_Obj_New(CYPDF_UINT32 ID, CYPDF_BOOL direct, CYPDF_BOOL indirect, CYPDF_REAL value);
+CYPDF_Obj_Real* CYPDF_New_Real(CYPDF_BOOL indirect, CYPDF_UINT32 ID, CYPDF_REAL value);
 
 /**
  * @brief Writes obj to fp. Does nothing if fp == NULL or obj == NULL.
@@ -37,14 +36,14 @@ CYPDF_Real_Obj* CYPDF_Real_Obj_New(CYPDF_UINT32 ID, CYPDF_BOOL direct, CYPDF_BOO
  * @param fp 
  * @param obj 
  */
-void CYPDF_Real_Obj_Write(FILE* fp, CYPDF_Object* obj);
+void CYPDF_Write_Real(FILE* fp, CYPDF_Object* obj);
 
 /**
  * @brief Frees obj. Does nothing if obj is NULL.
  * 
  * @param obj 
  */
-void CYPDF_Real_Obj_Free(CYPDF_Object* obj);
+void CYPDF_Free_Real(CYPDF_Object* obj);
 
 
 

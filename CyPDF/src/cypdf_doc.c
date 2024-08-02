@@ -8,28 +8,28 @@
 
 
 
-CYPDF_Doc* CYPDF_Doc_New() {
-    CYPDF_Doc* pdf_doc = CYPDF_safe_malloc(sizeof(CYPDF_Doc));
+CYPDF_Doc* CYPDF_New_Doc() {
+    CYPDF_Doc* pdf_doc = CYPDF_smalloc(sizeof(CYPDF_Doc));
     if (pdf_doc != NULL) {
-        pdf_doc->file_header = CYPDF_File_Header_New();
+        pdf_doc->file_header = CYPDF_New_File_Header();
     }
 
     return pdf_doc;
 }
 
-void CYPDF_Doc_Write(FILE* fp, CYPDF_Doc* pdf_doc) {
+void CYPDF_Write_Doc(FILE* fp, CYPDF_Doc* pdf_doc) {
     if (fp == NULL || pdf_doc == NULL) {
         return;
     }
 
-    CYPDF_File_Header_Write(fp, pdf_doc->file_header);
+    CYPDF_Write_File_Header(fp, pdf_doc->file_header);
 }
 
-void CYPDF_Doc_Free(CYPDF_Doc* pdf_doc) {
+void CYPDF_Free_Doc(CYPDF_Doc* pdf_doc) {
     if (pdf_doc == NULL) {
         return;
     }
 
-    CYPDF_File_Header_Free(pdf_doc->file_header);
+    CYPDF_Free_File_Header(pdf_doc->file_header);
     free(pdf_doc);
 }

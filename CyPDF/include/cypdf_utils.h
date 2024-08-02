@@ -26,7 +26,7 @@ void CYPDF_StrToBytes(const char* src, CYPDF_BYTE* dest, size_t size);
  * @param size 
  * @return void* | Returns NULL if memory allocation fails.
  */
-void* CYPDF_safe_malloc(size_t size);
+void* CYPDF_smalloc(size_t size);
 
 /**
  * @brief Safely calls calloc(element_count, element_size). Prints an error message if memory allocation fails.
@@ -35,7 +35,7 @@ void* CYPDF_safe_malloc(size_t size);
  * @param element_size 
  * @return void* | Returns NULL if memory allocation fails.
  */
-void* CYPDF_safe_calloc(size_t element_count, size_t element_size);
+void* CYPDF_scalloc(size_t element_count, size_t element_size);
 
 /**
  * @brief Safely re-allocates ptr to size bytes. Prints an error message if memory allocation fails.
@@ -44,7 +44,7 @@ void* CYPDF_safe_calloc(size_t element_count, size_t element_size);
  * @param size New size of the memory block.
  * @return void* | Returns NULL if memory allocation fails.
  */
-void* CYPDF_safe_realloc(void* ptr, size_t size);
+void* CYPDF_srealloc(void* ptr, size_t size);
 
 
 

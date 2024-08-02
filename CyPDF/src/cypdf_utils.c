@@ -12,7 +12,7 @@ void CYPDF_StrToBytes(const char* src, CYPDF_BYTE* dest, size_t size) {
     }
 }
 
-void* CYPDF_safe_malloc(size_t size) {
+void* CYPDF_smalloc(size_t size) {
     void* mem = malloc(size);
     if (!mem) {
         fprintf(stderr, "Failed to allocate %zu bytes of memory.\n", size);
@@ -21,7 +21,7 @@ void* CYPDF_safe_malloc(size_t size) {
     return mem;
 }
 
-void* CYPDF_safe_calloc(size_t element_count, size_t element_size) {
+void* CYPDF_scalloc(size_t element_count, size_t element_size) {
     void* mem = calloc(element_count, element_size);
     if (!mem) {
         fprintf(stderr, "Failed to allocate %zu bytes of memory.\n", element_count * element_size);
@@ -30,7 +30,7 @@ void* CYPDF_safe_calloc(size_t element_count, size_t element_size) {
     return mem;
 }
 
-void* CYPDF_safe_realloc(void* ptr, size_t size) {
+void* CYPDF_srealloc(void* ptr, size_t size) {
     void* mem = realloc(ptr, size);
     if (mem == NULL) {
         fprintf(stderr, "Failed to reallocate %p to a size of %zu.\n", ptr, size);

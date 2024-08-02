@@ -9,15 +9,15 @@
 
 
 
-CYPDF_String_Obj* CPYDF_String_Obj_New(CYPDF_UINT32 ID, CYPDF_BOOL direct, CYPDF_BOOL indirect, CYPDF_BYTE* value, CYPDF_SIZE vsize) {
-    CYPDF_String_Obj* string = (CYPDF_String_Obj*)CYPDF_Obj_New(ID, direct, indirect, CYPDF_OCLASS_STRING);
-    if (string != NULL) {
-        string->value = CYPDF_safe_malloc(vsize);
+CYPDF_Obj_String* CPYDF_New_String(CYPDF_BOOL indirect, CYPDF_UINT32 ID, CYPDF_BYTE* value, CYPDF_SIZE valsize) {
+    CYPDF_Obj_String* string = (CYPDF_Obj_String*)CYPDF_New_Obj(indirect, CYPDF_OCLASS_STRING, ID);
+    if (string) {
+        string->value = CYPDF_smalloc(valsize);
 
         /* If memory allocation failed, string->value is not initialized. */
-        if (string->value != NULL) {
-            memcpy(string->value, value, vsize);
-            string->size = vsize;
+        if (string->value) {
+            memcpy(string->value, value, valsize);
+            string->size = valsize;
         } else {
             string->size = 0;
         }
@@ -31,16 +31,14 @@ void CPYDF_String_Obj_Write(FILE* fp, CYPDF_Object* obj) {
         return;
     }
 
-    CYPDF_String_Obj* string = (CYPDF_String_Obj*)obj;
+    CYPDF_Obj_String* string = (CYPDF_Obj_String*)obj;
     fwrite(string->value, sizeof(string->value[0]), string->size, fp);
 }
 
-void CYPDF_String_Obj_Free(CYPDF_Object* obj) {
-    if (obj == NULL) {
-        return;
+void CYPDF_Obj_String_Free(CYPDF_Object* obj) {
+    if (obj) {
+        CYPDF_Obj_String* string = (CYPDF_Obj_String*)obj;
+        free(string->value);
+        free(string);
     }
-    
-    CYPDF_String_Obj* string = (CYPDF_String_Obj*)obj;
-    free(string->value);
-    free(string);
 }

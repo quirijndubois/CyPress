@@ -20,7 +20,7 @@ typedef struct _CYPDF_List {
  * @param free_func Function to free the memory allocated to an element of the list.
  * @return CYPDF_List* | Returns NULL if memory allocation fails.
  */
-CYPDF_List* CYPDF_List_New(CYPDF_Free_Func free_func);
+CYPDF_List* CYPDF_New_List(CYPDF_Free_Func free_func);
 
 /**
  * @brief Appends element to list->elements. Does nothing to list if memory allocation for element fails.
@@ -36,7 +36,7 @@ int CYPDF_List_Append(CYPDF_List* list, void* element);
  * 
  * @param list 
  */
-void CYPDF_List_Free(CYPDF_List* list);
+void CYPDF_Free_List(CYPDF_List* list);
 
 
 

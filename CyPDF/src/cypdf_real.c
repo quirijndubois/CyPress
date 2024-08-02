@@ -7,29 +7,27 @@
 
 
 
-CYPDF_Real_Obj* CYPDF_Real_Obj_New(CYPDF_UINT32 ID, CYPDF_BOOL direct, CYPDF_BOOL indirect, CYPDF_REAL value) {
-    CYPDF_Real_Obj* real = (CYPDF_Real_Obj*)CYPDF_Obj_New(ID, direct, indirect, CYPDF_OCLASS_REAL);
-    if (real != NULL) {
+CYPDF_Obj_Real* CYPDF_New_Real(CYPDF_BOOL indirect, CYPDF_UINT32 ID, CYPDF_REAL value) {
+    CYPDF_Obj_Real* real = (CYPDF_Obj_Real*)CYPDF_New_Obj(indirect, CYPDF_OCLASS_REAL, ID);
+    if (real) {
         real->value = value;
     }
 
     return real;
 }
 
-void CYPDF_Real_Obj_Write(FILE* fp, CYPDF_Object* obj) {
+void CYPDF_Write_Real(FILE* fp, CYPDF_Object* obj) {
     if (fp == NULL || obj == NULL) {
         return;
     }
 
-    CYPDF_Real_Obj* real = (CYPDF_Real_Obj*)obj;
+    CYPDF_Obj_Real* real = (CYPDF_Obj_Real*)obj;
     fprintf(fp, "%f", real->value);
 }
 
-void CYPDF_Real_Obj_Free(CYPDF_Object* obj) {
-    if (obj == NULL) {
-        return;
+void CYPDF_Free_Real(CYPDF_Object* obj) {
+    if (obj) {
+        CYPDF_Obj_Real* real = (CYPDF_Obj_Real*)obj;
+        free(real);
     }
-    
-    CYPDF_Real_Obj* real = (CYPDF_Real_Obj*)obj;
-    free(real);
 }

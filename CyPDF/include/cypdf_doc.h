@@ -13,7 +13,7 @@
 /* CYPDF_doc struct */
 typedef struct _CYPDF_Doc {
     CYPDF_File_Header*      file_header;
-    CYPDF_Catalog_Obj*      catalog;
+    CYPDF_Obj_Catalog*      catalog;
     
     CYPDF_UINT32            obj_count;
 } CYPDF_Doc;
@@ -24,7 +24,7 @@ typedef struct _CYPDF_Doc {
  * 
  * @return CYPDF_Doc* | Returns NULL if memory allocation fails.
  */
-CYPDF_Doc* CYPDF_Doc_New();
+CYPDF_Doc* CYPDF_New_Doc();
 
 /**
  * @brief Writes pdf_doc to fp. Does nothing if fp == NULL or pdf_doc == NULL.
@@ -32,14 +32,14 @@ CYPDF_Doc* CYPDF_Doc_New();
  * @param fp 
  * @param pdf_doc 
  */
-void CYPDF_Doc_Write(FILE* fp, CYPDF_Doc* pdf_doc);
+void CYPDF_Write_Doc(FILE* fp, CYPDF_Doc* pdf_doc);
 
 /**
  * @brief Frees pdf_doc. Does nothing if pdf_doc is NULL.
  * 
  * @param pdf_doc 
  */
-void CYPDF_Doc_Free(CYPDF_Doc* pdf_doc);
+void CYPDF_Free_Doc(CYPDF_Doc* pdf_doc);
 
 
 

@@ -2,16 +2,18 @@
 #define CYPDF_STREAM_H
 
 
+#include "cypdf_dict.h"
+#include "cypdf_types.h"
 
 
 
-
-typedef struct _CYPDF_Stream_Obj {
+/* CYPDF_Obj_Stream struct */
+typedef struct _CYPDF_Obj_Stream {
     CYPDF_Obj_Header        header;
-    CYPDF_Dict_Obj          dict;
+    CYPDF_Obj_Dict          dict;
     CYPDF_BYTE*             value;
     CYPDF_SIZE              size;
-} CYPDF_Stream_Obj;
+} CYPDF_Obj_Stream;
 
 
 

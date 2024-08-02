@@ -60,10 +60,10 @@ typedef struct _CYPDF_Point {
 
 /* CYPDF_Rect struct */
 typedef struct _CYPDF_Rect {
-    CYPDF_REAL left;
-    CYPDF_REAL bottom;
-    CYPDF_REAL right;
-    CYPDF_REAL top;
+    CYPDF_REAL lowleftx;
+    CYPDF_REAL lowlefty;
+    CYPDF_REAL uprightx;
+    CYPDF_REAL uprighty;
 } CYPDF_Rect;
 
 
@@ -72,7 +72,6 @@ typedef void CYPDF_Object;
 
 /* CYPDF function types */
 typedef void (*CYPDF_Free_Func)(void*);
-
 typedef void (*CYPDF_Write_Func)(FILE*, CYPDF_Object*);
 
 

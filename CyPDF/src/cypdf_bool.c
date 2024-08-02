@@ -7,21 +7,21 @@
 
 
 
-CYPDF_Bool_Obj* CYPDF_Bool_Obj_New(CYPDF_UINT32 ID, CYPDF_BOOL direct, CYPDF_BOOL indirect, CYPDF_BOOL value) {
-    CYPDF_Bool_Obj* bool = (CYPDF_Bool_Obj*)CYPDF_Obj_New(ID, direct, indirect, CYPDF_OCLASS_BOOL);
-    if (bool != NULL) {
+CYPDF_Obj_Bool* CYPDF_New_Bool(CYPDF_BOOL indirect, CYPDF_UINT32 ID, CYPDF_BOOL value) {
+    CYPDF_Obj_Bool* bool = (CYPDF_Obj_Bool*)CYPDF_New_Obj(indirect, CYPDF_OCLASS_BOOL, ID);
+    if (bool) {
         bool->value = value;
     }
 
     return bool;
 }
 
-void CYPDF_Bool_Obj_Write(FILE* fp, CYPDF_Object* obj) {
+void CYPDF_Write_Bool(FILE* fp, CYPDF_Object* obj) {
     if (fp == NULL || obj == NULL) {
         return;
     }
 
-    CYPDF_Bool_Obj* bool = (CYPDF_Bool_Obj*)obj;
+    CYPDF_Obj_Bool* bool = (CYPDF_Obj_Bool*)obj;
     if (bool->value) {
         fprintf(fp, "true");
     } else {
@@ -29,11 +29,9 @@ void CYPDF_Bool_Obj_Write(FILE* fp, CYPDF_Object* obj) {
     }
 }
 
-void CYPDF_Bool_Obj_Free(CYPDF_Object* obj) {
-    if (obj == NULL) {
-        return;
+void CYPDF_Free_Bool(CYPDF_Object* obj) {
+    if (obj) {
+        CYPDF_Obj_Bool* bool = (CYPDF_Obj_Bool*)obj;
+        free(bool);
     }
-    
-    CYPDF_Bool_Obj* bool = (CYPDF_Bool_Obj*)obj;
-    free(bool);
 }

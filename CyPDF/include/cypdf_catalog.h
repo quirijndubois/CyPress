@@ -10,26 +10,25 @@
 
 
 
-#define CYPDF_CATALOG_OBJ_WRITE         CYPDF_Catalog_Obj_Write
-#define CYPDF_CATALOG_OBJ_FREE          CYPDF_Catalog_Obj_Free
+#define CYPDF_WRITE_CATALOG             CYPDF_Write_Catalog
+#define CYPDF_FREE_CATALOG              CYPDF_Free_Catalog
 
 
-/* CYPDF_Catalog_Obj struct */
-typedef struct _CYPDF_Catalog_Obj {
-    CYPDF_Obj_Header*       header;
-    CYPDF_Dict_Obj*         dict;
-} CYPDF_Catalog_Obj;
+/* CYPDF_Obj_Catalog struct */
+typedef struct _CYPDF_Obj_Catalog {
+    CYPDF_Obj_Header        header;
+    CYPDF_Obj_Dict*         dict;
+} CYPDF_Obj_Catalog;
 
 
 /**
- * @brief Creates new CYPDF_Catalog_Obj.
+ * @brief Creates new CYPDF_Obj_Catalog.
  * 
- * @param ID 
- * @param direct 
  * @param indirect 
- * @return CYPDF_Catalog_Obj* | Returns NULL if object creation fails.
+ * @param ID 
+ * @return CYPDF_Obj_Catalog* | Returns NULL if object creation fails.
  */
-CYPDF_Catalog_Obj* CYPDF_Catalog_Obj_New(CYPDF_UINT32 ID, CYPDF_BOOL direct, CYPDF_BOOL indirect);
+CYPDF_Obj_Catalog* CYPDF_New_Catalog(CYPDF_BOOL indirect, CYPDF_UINT32 ID);
 
 /**
  * @brief Writes obj to fp. Does nothing if fp == NULL or obj == NULL.
@@ -37,14 +36,14 @@ CYPDF_Catalog_Obj* CYPDF_Catalog_Obj_New(CYPDF_UINT32 ID, CYPDF_BOOL direct, CYP
  * @param fp 
  * @param obj 
  */
-void CYPDF_Catalog_Obj_Write(FILE* fp, CYPDF_Object* obj);
+void CYPDF_Write_Catalog(FILE* fp, CYPDF_Object* obj);
 
 /**
  * @brief Frees obj. Does nothing if obj is NULL.
  * 
  * @param obj 
  */
-void CYPDF_Catalog_Obj_Free(CYPDF_Object* obj);
+void CYPDF_Free_Catalog(CYPDF_Object* obj);
 
 
 

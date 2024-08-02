@@ -9,29 +9,27 @@
 
 
 
-CYPDF_Name_Obj* CYPDF_Name_Obj_New(CYPDF_UINT32 ID, CYPDF_BOOL direct, CYPDF_BOOL indirect, const char* value) {
-    CYPDF_Name_Obj* name = (CYPDF_Name_Obj*)CYPDF_Obj_New(ID, direct, indirect, CYPDF_OCLASS_NAME);
-    if (name != NULL) {
+CYPDF_Obj_Name* CYPDF_Obj_Name_New(CYPDF_BOOL indirect, CYPDF_UINT32 ID, const char* value) {
+    CYPDF_Obj_Name* name = (CYPDF_Obj_Name*)CYPDF_New_Obj(indirect, CYPDF_OCLASS_NAME, ID);
+    if (name) {
         memcpy(name->value, value, MAX(strlen(value), CYPDF_MAX_NAME_LEN));
     }
 
     return name;
 }
 
-void CYPDF_Name_Obj_Write(FILE* fp, CYPDF_Object* obj) {
+void CYPDF_Write_Name(FILE* fp, CYPDF_Object* obj) {
     if (fp == NULL || obj == NULL) {
         return;
     }
 
-    CYPDF_Name_Obj* name = (CYPDF_Name_Obj*)obj;
+    CYPDF_Obj_Name* name = (CYPDF_Obj_Name*)obj;
     fprintf(fp, "/%s", name->value);
 }
 
-void CYPDF_Name_Obj_Free(CYPDF_Object* obj) {
-    if (obj == NULL) {
-        return;
+void CYPDF_Obj_Name_Free(CYPDF_Object* obj) {
+    if (obj) {
+        CYPDF_Obj_Name* name = (CYPDF_Obj_Name*)obj;
+        free(name);
     }
-    
-    CYPDF_Name_Obj* name = (CYPDF_Name_Obj*)obj;
-    free(name);
 }

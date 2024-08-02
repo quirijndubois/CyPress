@@ -9,27 +9,26 @@
 
 
 
-#define CYPDF_NUMBER_OBJ_WRITE          CYPDF_Number_Obj_Write
-#define CYDPF_NUMBER_OBJ_FREE           CYPDF_Number_Obj_Free
+#define CYPDF_WRITE_NUMBER              CYPDF_Write_Number
+#define CYDPF_FREE_NUMBER               CYPDF_Free_Number
 
 
-/* CYPDF_Number_Obj struct */
-typedef struct _CYPDF_Number_Obj {
-    CYPDF_Obj_Header*       header;
+/* CYPDF_Obj_Number struct */
+typedef struct _CYPDF_Obj_Number {
+    CYPDF_Obj_Header        header;
     CYPDF_INT               value;
-} CYPDF_Number_Obj;
+} CYPDF_Obj_Number;
 
 
 /**
- * @brief Creates new CYPDF_Number_Obj initialized with value.
+ * @brief Creates new CYPDF_Obj_Number initialized with value.
  * 
- * @param ID 
- * @param direct 
  * @param indirect 
+ * @param ID 
  * @param value 
- * @return CYPDF_Number_Obj* | Returns NULL if object creation fails.
+ * @return CYPDF_Obj_Number* | Returns NULL if object creation fails.
  */
-CYPDF_Number_Obj* CYPDF_Number_Obj_New(CYPDF_UINT32 ID, CYPDF_BOOL direct, CYPDF_BOOL indirect, CYPDF_INT value);
+CYPDF_Obj_Number* CYPDF_New_Number(CYPDF_BOOL indirect, CYPDF_UINT32 ID, CYPDF_INT value);
 
 /**
  * @brief Writes obj to fp. Does nothing if fp == NULL or obj == NULL.
@@ -37,14 +36,14 @@ CYPDF_Number_Obj* CYPDF_Number_Obj_New(CYPDF_UINT32 ID, CYPDF_BOOL direct, CYPDF
  * @param fp 
  * @param obj 
  */
-void CYPDF_Number_Obj_Write(FILE* fp, CYPDF_Object* obj);
+void CYPDF_Write_Number(FILE* fp, CYPDF_Object* obj);
 
 /**
  * @brief Frees obj. Does nothing if obj is NULL.
  * 
  * @param obj 
  */
-void CYPDF_Number_Obj_Free(CYPDF_Object* obj);
+void CYPDF_Free_Number(CYPDF_Object* obj);
 
 
 

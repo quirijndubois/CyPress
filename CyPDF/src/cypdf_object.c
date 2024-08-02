@@ -11,52 +11,18 @@
 #include "cypdf_name.h"
 #include "cypdf_null.h"
 #include "cypdf_number.h"
+#include "cypdf_page.h"
+#include "cypdf_pages.h"
 #include "cypdf_real.h"
 #include "cypdf_stream.h"
 #include "cypdf_string.h"
+#include "cypdf_types.h"
 #include "cypdf_utils.h"
 
 
 
-CYPDF_Obj_Header* CYPDF_Obj_Header_New(CYPDF_BOOL direct, CYPDF_BOOL indirect, CYPDF_UINT32 ID, CYPDF_UINT16 gen, CYPDF_UINT16 class, CYPDF_Write_Func write_func, CYPDF_Free_Func free_func) {
-    CYPDF_Obj_Header* header = CYPDF_safe_malloc(sizeof(CYPDF_Obj_Header));
-    if (!header) {
-        return NULL;
-    }
-
-    /* If the object's ID exceeds the maximum, the object can't be safely created and NULL is returned. */
-    if (ID > CYPDF_INDIRECT_OBJ_MAX) {
-        printf("Invalid object ID for indirect object.\n");
-        free(header);
-        return NULL;
-    }
-    header->obj_id = ID;
-
-    if (direct)
-        header->obj_id |= CYPDF_OTYPE_DIRECT; /* Sets the direct bit of header->obj_id to 1. */
-    if (indirect)
-        header->obj_id |= CYPDF_OTYPE_INDIRECT; /* Sets the indirect bit of header->obj_id to 1. */
-    header->obj_gen = gen;
-
-    /* If the object's class is invalid, it is set to CYPDF_OCLASS_UNKNOWN */
-    if (class >= CYPDF_OCLASS_COUNT && class != CYPDF_OCLASS_NONE) {
-        printf("Unknown object class.\n");
-        class = CYPDF_OCLASS_UNKNOWN;
-    }
-    header->obj_class = class;
-
-    header->write = write_func;
-    header->free = free_func;
-
-    return header;
-}
-
-void CYPDF_Obj_Header_Free(CYPDF_Obj_Header* obj_header) {
-    free(obj_header);
-}
-
-CYPDF_Object* CYPDF_Obj_New(CYPDF_UINT32 ID, CYPDF_BOOL direct, CYPDF_BOOL indirect, enum CYPDF_OCLASS class) {
-    size_t size = 0;
+CYPDF_Object* CYPDF_New_Obj(CYPDF_BOOL indirect, enum CYPDF_OCLASS class, CYPDF_UINT32 ID) {
+    CYPDF_SIZE size = 0;
     CYPDF_Write_Func write_func = NULL;
     CYPDF_Free_Func free_func = NULL;
 
@@ -64,172 +30,195 @@ CYPDF_Object* CYPDF_Obj_New(CYPDF_UINT32 ID, CYPDF_BOOL direct, CYPDF_BOOL indir
     switch (class)
     {
     case CYPDF_OCLASS_NULL:
-        size = sizeof(CYPDF_Null_Obj);
-        write_func = CYPDF_NULL_OBJ_WRITE;
-        free_func = CYPDF_NULL_OBJ_FREE;
+        size = sizeof(CYPDF_Obj_Null);
+        write_func = CYPDF_WRITE_NULL;
+        free_func = CYPDF_FREE_NULL;
         break;
     case CYPDF_OCLASS_BOOL:
-        size = sizeof(CYPDF_Bool_Obj);
-        write_func = CYPDF_BOOL_OBJ_WRITE;
-        free_func = CYPDF_BOOL_OBJ_FREE;
+        size = sizeof(CYPDF_Obj_Bool);
+        write_func = CYPDF_WRITE_BOOL;
+        free_func = CYPDF_FREE_BOOL;
         break;
     case CYPDF_OCLASS_NUMBER:
-        size = sizeof(CYPDF_Number_Obj);
-        write_func = CYPDF_NUMBER_OBJ_WRITE;
-        free_func = CYDPF_NUMBER_OBJ_FREE;
+        size = sizeof(CYPDF_Obj_Number);
+        write_func = CYPDF_WRITE_NUMBER;
+        free_func = CYDPF_FREE_NUMBER;
         break;
     case CYPDF_OCLASS_REAL:
-        size = sizeof(CYPDF_Real_Obj);
-        write_func = CYPDF_REAL_OBJ_WRITE;
-        free_func = CYPDF_REAL_OBJ_FREE;
+        size = sizeof(CYPDF_Obj_Real);
+        write_func = CYPDF_WRITE_REAL;
+        free_func = CYPDF_FREE_REAL;
         break;
     case CYPDF_OCLASS_STRING:
-        size = sizeof(CYPDF_String_Obj);
-        write_func = CYPDF_STRING_OBJ_WRITE;
-        free_func = CYPDF_STRING_OBJ_FREE;
+        size = sizeof(CYPDF_Obj_String);
+        write_func = CYPDF_WRITE_STRING;
+        free_func = CYPDF_FREE_STRING;
         break;
     case CYPDF_OCLASS_NAME:
-        size = sizeof(CYPDF_Name_Obj);
-        write_func = CYPDF_NAME_OBJ_WRITE;
-        free_func = CYPDF_NAME_OBJ_FREE;
+        size = sizeof(CYPDF_Obj_Name);
+        write_func = CYPDF_WRITE_NAME;
+        free_func = CYPDF_FREE_NAME;
         break;
     case CYPDF_OCLASS_ARRAY:
-        size = sizeof(CYPDF_Array_Obj);
-        write_func = CYPDF_ARRAY_OBJ_WRITE;
-        free_func = CYPDF_ARRAY_OBJ_FREE;
+        size = sizeof(CYPDF_Obj_Array);
+        write_func = CYPDF_WRITE_ARRAY;
+        free_func = CYPDF_FREE_ARRAY;
         break;
     case CYPDF_OCLASS_DICT:
-        size = sizeof(CYPDF_Dict_Obj);
-        write_func = CYPDF_DICT_OBJ_WRITE;
-        free_func = CYPDF_DICT_OBJ_FREE;
+        size = sizeof(CYPDF_Obj_Dict);
+        write_func = CYPDF_WRITE_DICT;
+        free_func = CYPDF_FREE_DICT;
         break;
     case CYPDF_OCLASS_STREAM:
-        size = sizeof(CYPDF_Stream_Obj);
+        size = sizeof(CYPDF_Obj_Stream);
         break;
     case CYPDF_OCLASS_CATALOG:
-        size = sizeof(CYPDF_Catalog_Obj);
-        write_func = CYPDF_CATALOG_OBJ_WRITE;
-        free_func = CYPDF_CATALOG_OBJ_FREE;
+        size = sizeof(CYPDF_Obj_Catalog);
+        write_func = CYPDF_WRITE_CATALOG;
+        free_func = CYPDF_FREE_CATALOG;
+        break;
+    case CYPDF_OCLASS_PAGE:
+        size = sizeof(CYPDF_Obj_Page);
+        write_func = CYPDF_WRITE_PAGE;
+        free_func = CYPDF_FREE_PAGE;
+        break;
+    case CYPDF_OCLASS_PAGES:
+        size = sizeof(CYPDF_Obj_Pages);
+        write_func = CYPDF_WRITE_PAGE;
+        free_func = CYPDF_FREE_PAGE;
         break;
     default:
-        size = sizeof(CYPDF_Null_Obj);
-        write_func = CYPDF_NULL_OBJ_WRITE;
-        free_func = CYPDF_NULL_OBJ_FREE;
+        size = sizeof(CYPDF_Obj_Null);
+        write_func = CYPDF_WRITE_NULL;
+        free_func = CYPDF_FREE_NULL;
         break;
     }
 
-    CYPDF_Object* obj = CYPDF_safe_calloc(1, size);
-    obj = (CYPDF_Object*)CYPDF_Obj_Header_New(direct, indirect, ID, CYPDF_DEFAULT_OGEN, class, write_func, free_func);
-    if (!obj) {
-        fprintf(stderr, "Failed to create new object of class %d.\n", class);
+    CYPDF_Obj_Null* obj = (CYPDF_Obj_Null*)CYPDF_scalloc(1, size);
+    if (obj) {
+        /* If the given ID is invalid, the default ID is used. */
+        if (ID > CYPDF_INDIRECT_OBJ_MAX) {
+            ID = CYPDF_DEFAULT_OID;
+        }
+
+        /* If the given class doesn't exist, it is set to unknown. */
+        if (class > CYPDF_OCLASS_COUNT) {
+            class = CYPDF_OCLASS_UNKNOWN;
+        }
+
+        if (indirect) {
+            obj->header.obj_id = CYPDF_OTYPE_INDIRECT;
+        }
+        obj->header.obj_id |= (CYPDF_BYTE)class << 24 | ID; /* ID will always be less than 2^24 - 1. */
+        obj->header.obj_gen = CYPDF_DEFAULT_OGEN;
+        obj->header.write = write_func;
+        obj->header.free = free_func;
     }
 
     return obj;
 }
 
-CYPDF_BOOL CYPDF_Obj_Get_Direct(CYPDF_Object* obj) {
-    if (obj == NULL) {
-        return CYPDF_FALSE;
+CYPDF_BOOL CYPDF_Obj_isDirect(CYPDF_Object* obj) {
+    CYPDF_BOOL direct = CYPDF_FALSE;
+    if (obj) {
+        CYPDF_Obj_Null* _obj = (CYPDF_Obj_Null*)obj;
+        direct = !(CYPDF_BOOL)(_obj->header.obj_id & CYPDF_OTYPE_INDIRECT);
     }
 
-    CYPDF_Null_Obj* _obj = (CYPDF_Null_Obj*)obj;
-    return (CYPDF_BOOL)(_obj->header->obj_id & CYPDF_OTYPE_DIRECT);
-}
-
-CYPDF_BOOL CYPDF_Obj_Get_Indirect(CYPDF_Object* obj) {
-    if (obj == NULL) {
-        return CYPDF_FALSE;
-    }
-
-    CYPDF_Null_Obj* _obj = (CYPDF_Null_Obj*)obj;
-    return _obj->header->obj_id & CYPDF_OTYPE_INDIRECT;
-}
-
-CYPDF_UINT32 CYPDF_Obj_Get_ID(CYPDF_Object* obj) {
-    if (obj == NULL) {
-        return CYPDF_OTYPE_NONE;
-    }
-
-    CYPDF_Null_Obj* _obj = (CYPDF_Null_Obj*)obj;
-    return _obj->header->obj_id & CYPDF_OBJ_ID;
-}
-
-CYPDF_UINT16 CYPDF_Obj_Get_Gen(CYPDF_Object* obj) {
-    if (obj == NULL) {
-        return CYPDF_DEFAULT_OGEN;
-    }
-
-    CYPDF_Null_Obj* _obj = (CYPDF_Null_Obj*)obj;
-    return _obj->header->obj_gen;
+    return direct;
 }
 
 enum CYPDF_OCLASS CYPDF_Obj_Get_Class(CYPDF_Object* obj) {
-    if (obj == NULL) {
-        return CYPDF_OCLASS_NONE;
+    enum CYPDF_OCLASS class = CYPDF_OCLASS_NONE;
+    if (obj) {
+        CYPDF_Obj_Null* _obj = (CYPDF_Obj_Null*)obj;
+        class = (_obj->header.obj_id & CYPDF_OCLASS_ANY) >> 24;
     }
 
-    CYPDF_Null_Obj* _obj = (CYPDF_Null_Obj*)obj;
-    return _obj->header->obj_class;
+    return class;
 }
 
-CYPDF_Free_Func CYPDF_Obj_Get_Free(CYPDF_Object* obj) {
-    if (obj == NULL) {
-        return NULL;
+CYPDF_UINT32 CYPDF_Obj_Get_ID(CYPDF_Object* obj) {
+    CYPDF_UINT32 ID = CYPDF_DEFAULT_OID;
+    if (obj) {
+        CYPDF_Obj_Null* _obj = (CYPDF_Obj_Null*)obj;
+        ID = _obj->header.obj_id & CYPDF_OBJ_ID;
     }
 
-    CYPDF_Null_Obj* _obj = (CYPDF_Null_Obj*)obj;
-    return _obj->header->free;
+    return ID;
+}
+
+CYPDF_UINT16 CYPDF_Obj_Get_Gen(CYPDF_Object* obj) {
+    CYPDF_UINT16 gen = CYPDF_DEFAULT_OGEN;
+    if (obj) {
+        CYPDF_Obj_Null* _obj = (CYPDF_Obj_Null*)obj;
+        gen = _obj->header.obj_gen;
+    }
+
+    return gen;
 }
 
 CYPDF_Write_Func CYPDF_Obj_Get_Write(CYPDF_Object* obj) {
-    if (obj == NULL) {
-        return NULL;
+    CYPDF_Write_Func write_func = NULL;
+    if (obj) {
+        CYPDF_Obj_Null* _obj = (CYPDF_Obj_Null*)obj;
+        write_func = _obj->header.write;
     }
 
-    CYPDF_Null_Obj* _obj = (CYPDF_Null_Obj*)obj;
-    return _obj->header->write;
+    return write_func;
 }
 
-void CYPDF_Obj_Write_Direct(FILE* fp, CYPDF_Object* obj) {
+CYPDF_Free_Func CYPDF_Obj_Get_Free(CYPDF_Object* obj) {
+    CYPDF_Free_Func free_func = NULL;
+    if (obj) {
+        CYPDF_Obj_Null* _obj = (CYPDF_Obj_Null*)obj;
+        free_func = _obj->header.free;
+    }
+
+    return free_func;
+}
+
+void CYPDF_Write_Obj_Direct(FILE* fp, CYPDF_Object* obj) {
     if (fp == NULL || obj == NULL) {
         return;
     }
 
-    /* If the obj is indirect, it means the object will be written indirectly at some point, 
-    and therefore it needs to be referable. */
-    CYPDF_BOOL indirect = CYPDF_Obj_Get_Indirect(obj);
-    if (indirect) {
-        fprintf(fp, "%u %hu obj\n", CYPDF_Obj_Get_ID(obj), CYPDF_Obj_Get_Gen(obj));
-    }
-
-    CYPDF_Obj_Get_Write(obj)(fp, obj); /* Writes the object directly. */
-
-    if (indirect) {
-        fprintf(fp, "endobj\n");
-    }
+    CYPDF_Write_Func write_func = CYPDF_Obj_Get_Write(obj);
+    write_func(fp, obj); /* Writes the object directly. */
 }
 
-void CYPDF_Obj_Write_Indirect(FILE* fp, CYPDF_Object* obj) {
+void CYPDF_Write_Obj_Def(FILE* fp, CYPDF_Object* obj) {
     if (fp == NULL || obj == NULL) {
         return;
     }
 
     /* If the object itself is not indirect, it cannot be written indirectly. 
     This is because it's ID and gen would be invalid. */
-    if (!CYPDF_Obj_Get_Indirect(obj)) {
-        CYPDF_Obj_Write_Direct(fp, obj);
-    } else {
+    if (!CYPDF_Obj_isDirect(obj)) {
+        fprintf(fp, "%u %hu obj\n", CYPDF_Obj_Get_ID(obj), CYPDF_Obj_Get_Gen(obj));
+        CYPDF_Write_Obj_Direct(fp, obj);
+        fprintf(fp, "\nendobj\n");
+    }
+}
+
+void CYPDF_Write_Obj_Ref(FILE* fp, CYPDF_Object* obj) {
+    if (fp == NULL || obj == NULL) {
+        return;
+    }
+
+    /* If the object itself is not indirect, it cannot be written indirectly. 
+    This is because it's ID and gen would be invalid. */
+    if (!CYPDF_Obj_isDirect(obj)) {
         fprintf(fp, "%u %hu R", CYPDF_Obj_Get_ID(obj), CYPDF_Obj_Get_Gen(obj));
     }
 }
 
-void CYPDF_Obj_Free(CYPDF_Object* obj) {
-    if (obj == NULL) {
-        return;
+void CYPDF_Free_Obj(CYPDF_Object* obj, CYPDF_BOOL ifIndirect) {
+    if (obj) {
+        /* An indirect object should only be freed if specified, since multiple attempts to free it might occur. */
+        if (CYPDF_Obj_isDirect(obj) || ifIndirect) {
+            CYPDF_Obj_Null* _obj = (CYPDF_Obj_Null*)obj;
+            _obj->header.free(obj);
+        }
     }
-    
-    CYPDF_Null_Obj* _obj = (CYPDF_Null_Obj*)obj;
-    CYPDF_Obj_Header* header = _obj->header;
-    _obj->header->free(obj);
-    free(header);
 }

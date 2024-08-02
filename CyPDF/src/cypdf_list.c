@@ -6,8 +6,8 @@
 
 
 
-CYPDF_List* CYPDF_List_New(void (*free_func)(void*)) {
-    CYPDF_List* list = CYPDF_safe_calloc(1, sizeof(CYPDF_List));
+CYPDF_List* CYPDF_New_List(void (*free_func)(void*)) {
+    CYPDF_List* list = CYPDF_scalloc(1, sizeof(CYPDF_List));
     if (list != NULL) {
         list->free_element = free_func;
     }
@@ -17,7 +17,7 @@ CYPDF_List* CYPDF_List_New(void (*free_func)(void*)) {
 
 int CYPDF_List_Append(CYPDF_List* list, void* element) {
     ++list->element_count;
-    list->elements = CYPDF_safe_realloc(list->elements, list->element_count * sizeof(void*));
+    list->elements = CYPDF_srealloc(list->elements, list->element_count * sizeof(void*));
     if (list->elements != NULL) {
         list->elements[list->element_count - 1] = element;
         return 0;
@@ -27,7 +27,7 @@ int CYPDF_List_Append(CYPDF_List* list, void* element) {
     }
 }
 
-void CYPDF_List_Free(CYPDF_List* list) {
+void CYPDF_Free_List(CYPDF_List* list) {
     if (list == NULL) {
         return;
     }
