@@ -11,7 +11,7 @@ CYPDF_Null_Obj* CYPDF_Null_Obj_New(CYPDF_UINT32 ID, CYPDF_BOOL direct, CYPDF_BOO
     return null;
 }
 
-void CYPDF_Null_Obj_Write(FILE* __attribute_maybe_unused__ fp, CYPDF_Null_Obj* __attribute_maybe_unused__ null) {
+void CYPDF_Null_Obj_Write(FILE* fp __attribute_maybe_unused__, CYPDF_Object* obj __attribute_maybe_unused__) {
     return;
 }
 

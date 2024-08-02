@@ -133,7 +133,7 @@ CYPDF_BOOL CYPDF_Obj_Get_Direct(CYPDF_Object* obj) {
     }
 
     CYPDF_Null_Obj* _obj = (CYPDF_Null_Obj*)obj;
-    return _obj->header->obj_id & CYPDF_OTYPE_DIRECT;
+    return (CYPDF_BOOL)(_obj->header->obj_id & CYPDF_OTYPE_DIRECT);
 }
 
 CYPDF_BOOL CYPDF_Obj_Get_Indirect(CYPDF_Object* obj) {

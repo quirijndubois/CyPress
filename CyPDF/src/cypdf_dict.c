@@ -14,7 +14,7 @@
 CYPDF_Dict_Obj* CYPDF_Dict_Obj_New(CYPDF_UINT32 ID, CYPDF_BOOL direct, CYPDF_BOOL indirect) {
     CYPDF_Dict_Obj* dict = (CYPDF_Dict_Obj*)CYPDF_Obj_New(ID, direct, indirect, CYPDF_OCLASS_DICT);
     if (dict != NULL) {
-        dict->entry_list = CYPDF_List_New(CYPDF_Dict_Obj_Entry_Free);
+        dict->entry_list = CYPDF_List_New((CYPDF_Free_Func)CYPDF_Dict_Obj_Entry_Free);
     }
 
     return dict;
