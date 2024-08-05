@@ -15,7 +15,7 @@ void CYPDF_Write_Null(FILE* fp __attribute_maybe_unused__, CYPDF_Object* obj __a
     return;
 }
 
-void CYPDF_Obj_Null_Free(CYPDF_Object* obj) {
+void CYPDF_Free_Null(CYPDF_Object* obj) {
     if (obj) {
         CYPDF_Obj_Null* null = (CYPDF_Obj_Null*)obj;
         free(null);

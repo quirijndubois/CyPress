@@ -32,6 +32,22 @@ typedef struct _CYPDF_Dict_Entry {
 
 
 /**
+ * @brief Creates new CYPDF_Dict_Entry.
+ * 
+ * @param key 
+ * @param value 
+ * @return CYPDF_Dict_Entry* | Returns NULL if memory allocation fails.
+ */
+CYPDF_Dict_Entry* CYPDF_New_Dict_Entry(CYPDF_Obj_Name* key, CYPDF_Object* value);
+
+/**
+ * @brief Frees entry. Does nothing if entry is NULL.
+ * 
+ * @param entry 
+ */
+void CYPDF_Free_Dict_Entry(CYPDF_Dict_Entry* entry);
+
+/**
  * @brief Creates new CYPDF_Obj_Dict.
  * 
  * @param indirect 

@@ -4,7 +4,6 @@
 #include "cypdf_catalog.h"
 #include "cypdf_consts.h"
 #include "cypdf_dict.h"
-#include "cypdf_doc.h"
 #include "cypdf_name.h"
 #include "cypdf_object.h"
 #include "cypdf_types.h"

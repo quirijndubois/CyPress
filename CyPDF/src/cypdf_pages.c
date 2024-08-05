@@ -50,7 +50,8 @@ void CYPDF_Write_Pages(FILE* fp, CYPDF_Object* obj) {
         return;
     }
 
-    CYPDF_Write_Obj_Direct(fp, obj);
+    CYPDF_Obj_Pages* pages = (CYPDF_Obj_Pages*)obj;
+    CYPDF_Write_Obj_Direct(fp, pages->dict);
 }
 
 void CYPDF_Free_Pages(CYPDF_Object* obj) {

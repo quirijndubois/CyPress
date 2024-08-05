@@ -11,7 +11,7 @@
 
 
 
-static CYPDF_Dict_Entry* CYPDF_New_Dict_Entry(CYPDF_Obj_Name* key, CYPDF_Object* value) {
+CYPDF_Dict_Entry* CYPDF_New_Dict_Entry(CYPDF_Obj_Name* key, CYPDF_Object* value) {
     CYPDF_Dict_Entry* entry = CYPDF_smalloc(sizeof(CYPDF_Dict_Entry));
     if (entry) {
         entry->key_obj = key;
@@ -21,7 +21,7 @@ static CYPDF_Dict_Entry* CYPDF_New_Dict_Entry(CYPDF_Obj_Name* key, CYPDF_Object*
     return entry;
 }
 
-static void CYPDF_Free_Dict_Entry(CYPDF_Dict_Entry* entry) {
+void CYPDF_Free_Dict_Entry(CYPDF_Dict_Entry* entry) {
     if (entry) {
         CYPDF_Free_Obj(entry->key_obj, CYPDF_FALSE);
         CYPDF_Free_Obj(entry->value_obj, CYPDF_FALSE);

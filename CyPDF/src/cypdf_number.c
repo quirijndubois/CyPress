@@ -16,7 +16,7 @@ CYPDF_Obj_Number* CYPDF_New_Number(CYPDF_BOOL indirect, CYPDF_UINT32 ID, CYPDF_I
     return number;
 }
 
-void CYPDF_Obj_Number_Write(FILE* fp, CYPDF_Object* obj) {
+void CYPDF_Write_Number(FILE* fp, CYPDF_Object* obj) {
     if (fp == NULL || obj == NULL) {
         return;
     }
@@ -25,7 +25,7 @@ void CYPDF_Obj_Number_Write(FILE* fp, CYPDF_Object* obj) {
     fprintf(fp, "%d", number->value);
 }
 
-void CYPDF_Obj_Number_Free(CYPDF_Object* obj) {
+void CYPDF_Free_Number(CYPDF_Object* obj) {
     if (obj) {
         CYPDF_Obj_Number* number = (CYPDF_Obj_Number*)obj;
         free(number);

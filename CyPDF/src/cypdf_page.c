@@ -38,7 +38,7 @@ void CYPDF_Write_Page(FILE* fp, CYPDF_Object* obj) {
     CYPDF_Write_Obj_Direct(fp, page->dict);
 }
 
-void CYPDF_Obj_Page_Free(CYPDF_Object* obj) {
+void CYPDF_Free_Page(CYPDF_Object* obj) {
     if (obj) {
         CYPDF_Obj_Page* page = (CYPDF_Obj_Page*)obj;
         CYPDF_Free_Obj(page->dict, CYPDF_FALSE);

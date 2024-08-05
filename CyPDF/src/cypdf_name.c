@@ -9,7 +9,7 @@
 
 
 
-CYPDF_Obj_Name* CYPDF_Obj_Name_New(CYPDF_BOOL indirect, CYPDF_UINT32 ID, const char* value) {
+CYPDF_Obj_Name* CYPDF_New_Name(CYPDF_BOOL indirect, CYPDF_UINT32 ID, const char* value) {
     CYPDF_Obj_Name* name = (CYPDF_Obj_Name*)CYPDF_New_Obj(indirect, CYPDF_OCLASS_NAME, ID);
     if (name) {
         memcpy(name->value, value, MAX(strlen(value), CYPDF_MAX_NAME_LEN));
@@ -27,7 +27,7 @@ void CYPDF_Write_Name(FILE* fp, CYPDF_Object* obj) {
     fprintf(fp, "/%s", name->value);
 }
 
-void CYPDF_Obj_Name_Free(CYPDF_Object* obj) {
+void CYPDF_Free_Name(CYPDF_Object* obj) {
     if (obj) {
         CYPDF_Obj_Name* name = (CYPDF_Obj_Name*)obj;
         free(name);
