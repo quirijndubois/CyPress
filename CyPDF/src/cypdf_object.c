@@ -9,7 +9,6 @@
 #include "cypdf_name.h"
 #include "cypdf_null.h"
 #include "cypdf_number.h"
-#include "cypdf_page.h"
 #include "cypdf_pages.h"
 #include "cypdf_real.h"
 #include "cypdf_stream.h"
@@ -58,7 +57,7 @@ CYPDF_Object* CYPDF_New_Obj(CYPDF_BOOL indirect, enum CYPDF_OCLASS class, CYPDF_
         size = sizeof(CYPDF_Obj_Page);
         break;
     case CYPDF_OCLASS_PAGES:
-        size = sizeof(CYPDF_Obj_Pages);
+        size = sizeof(CYPDF_Obj_PNode);
         break;
     default:
         size = sizeof(CYPDF_Obj_Null);
@@ -166,7 +165,7 @@ CYPDF_Write_Func CYPDF_Obj_Get_Write(CYPDF_Object* obj) {
             write_func = CYPDF_WRITE_PAGE;
             break;
         case CYPDF_OCLASS_PAGES:
-            write_func = CYPDF_WRITE_PAGE;
+            write_func = CYPDF_WRITE_PNODE;
             break;
         default:
             write_func = CYPDF_WRITE_NULL;
@@ -217,7 +216,7 @@ CYPDF_Free_Func CYPDF_Obj_Get_Free(CYPDF_Object* obj) {
             free_func = CYPDF_FREE_PAGE;
             break;
         case CYPDF_OCLASS_PAGES:
-            free_func = CYPDF_FREE_PAGE;
+            free_func = CYPDF_FREE_PNODE;
             break;
         default:
             free_func = CYPDF_FREE_NULL;

@@ -41,6 +41,14 @@ CYPDF_Obj_Array* CYPDF_New_Array(CYPDF_BOOL indirect, CYPDF_UINT32 ID);
 CYPDF_Obj_Array* CYPDF_Array_From_Rect(CYPDF_Rect rect, CYPDF_BOOL indirect, CYPDF_UINT32 ID);
 
 /**
+ * @brief Appends obj to array.
+ * 
+ * @param array 
+ * @param obj 
+ */
+void CYPDF_Array_Append(CYPDF_Obj_Array* array, CYPDF_Object* obj);
+
+/**
  * @brief Writes obj to fp. Does nothing if fp == NULL or obj == NULL.
  * 
  * @param fp 

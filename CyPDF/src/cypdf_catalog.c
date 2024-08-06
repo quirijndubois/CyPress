@@ -11,7 +11,7 @@
 
 
 
-CYPDF_Obj_Catalog* CYPDF_New_Catalog(CYPDF_BOOL indirect, CYPDF_UINT32 ID, CYPDF_Obj_Pages* pages) {
+CYPDF_Obj_Catalog* CYPDF_New_Catalog(CYPDF_BOOL indirect, CYPDF_UINT32 ID, CYPDF_Obj_PNode* pages) {
     CYPDF_Obj_Catalog* catalog = (CYPDF_Obj_Catalog*)CYPDF_New_Obj(indirect, CYPDF_OCLASS_CATALOG, ID);
     if (catalog) {
         catalog->dict = CYPDF_New_Dict(CYPDF_TRUE, ID);

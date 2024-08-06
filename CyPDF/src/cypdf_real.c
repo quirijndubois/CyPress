@@ -22,7 +22,7 @@ void CYPDF_Write_Real(FILE* fp, CYPDF_Object* obj) {
     }
 
     CYPDF_Obj_Real* real = (CYPDF_Obj_Real*)obj;
-    fprintf(fp, "%f", real->value);
+    fprintf(fp, "%g", real->value);
 }
 
 void CYPDF_Free_Real(CYPDF_Object* obj) {
