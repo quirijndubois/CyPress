@@ -71,7 +71,7 @@ typedef void CYPDF_Object;
 
 
 /* CYPDF function types */
-typedef void (*CYPDF_Free_Func)(void*);
+typedef void (*CYPDF_Free_Func)(CYPDF_Object*);
 typedef void (*CYPDF_Write_Func)(FILE*, CYPDF_Object*);
 
 

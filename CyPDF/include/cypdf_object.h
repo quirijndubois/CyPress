@@ -6,9 +6,6 @@
 
 
 
-#define CYPDF_OTYPE_INDIRECT        0x80000000
-
-
 enum CYPDF_OCLASS {
     CYPDF_OCLASS_NULL = 0,
     CYPDF_OCLASS_BOOL,
@@ -30,31 +27,17 @@ enum CYPDF_OCLASS {
     CYPDF_OCLASS_UNKNOWN,
 };
 
-#define CYPDF_OCLASS_ANY            0x7F000000
-
 
 #define CYPDF_DEFAULT_OID           0x00000000          /* Used for direct objects. */
 #define CYPDF_DEFAULT_OGEN          0x0000
 
 
-#define CYPDF_OBJ_ID                0x00FFFFFF
-
-
-/* obj_id structure:
-    bit 1:      indirect-object
-    bit 2:      reserved
-    bit 3-8:    object class
-    bit 9-32:   object-id
-
-    real Object-ID is described "obj_id & 0x00FFFFFF"
-*/
-
 /* CYPDF_Obj_Header struct */
 typedef struct _CYPDF_Obj_Header {
-    CYPDF_UINT32            obj_id;
-    CYPDF_UINT16            obj_gen;
-    CYPDF_Free_Func         free;
-    CYPDF_Write_Func        write;
+    CYPDF_BOOL              indirect;
+    enum CYPDF_OCLASS       class;
+    CYPDF_UINT32            ID;
+    CYPDF_UINT16            gen;
 } CYPDF_Obj_Header;
 
 

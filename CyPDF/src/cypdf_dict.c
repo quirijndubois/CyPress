@@ -38,8 +38,9 @@ CYPDF_Obj_Dict* CYPDF_New_Dict(CYPDF_BOOL indirect, CYPDF_UINT32 ID) {
     return dict;
 }
 
-void CYPDF_Dict_Append(CYPDF_Obj_Dict* dict, CYPDF_Obj_Name* key, CYPDF_Object* value) {
+void CYPDF_Dict_Append(CYPDF_Obj_Dict* dict, const char* key_name, CYPDF_Object* value) {
     if (dict) {
+        CYPDF_Obj_Name* key = CYPDF_New_Name(CYPDF_FALSE, CYPDF_DEFAULT_OID, key_name);
         CYPDF_Dict_Entry* entry = CYPDF_New_Dict_Entry(key, value);
         CYPDF_List_Append(dict->entry_list, entry);
     }
@@ -59,11 +60,17 @@ void CYPDF_Write_Dict(FILE* fp, CYPDF_Object* obj) {
         CYPDF_Dict_Entry* entry = list->elements[i];
         CYPDF_Write_Obj_Direct(fp, entry->key_obj);
         fputc(' ', fp);
-        CYPDF_Write_Obj_Direct(fp, entry->value_obj);
+
+        if (CYPDF_Obj_isDirect(entry->value_obj)) {
+            CYPDF_Write_Obj_Direct(fp, entry->value_obj);
+        } else {
+            CYPDF_Write_Obj_Ref(fp, entry->value_obj);
+        }
+        
         fprintf(fp, "%s", CYPDF_NEW_LINE);
     }
 
-    fprintf(fp, ">>%s", CYPDF_NEW_LINE);
+    fprintf(fp, ">>");
 }
 
 void CYPDF_Free_Dict(CYPDF_Object* obj) {

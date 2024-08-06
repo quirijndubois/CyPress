@@ -6,6 +6,7 @@
 
 #include "cypdf_dict.h"
 #include "cypdf_object.h"
+#include "cypdf_pages.h"
 #include "cypdf_types.h"
 
 
@@ -28,7 +29,7 @@ typedef struct _CYPDF_Obj_Catalog {
  * @param ID 
  * @return CYPDF_Obj_Catalog* | Returns NULL if object creation fails.
  */
-CYPDF_Obj_Catalog* CYPDF_New_Catalog(CYPDF_BOOL indirect, CYPDF_UINT32 ID);
+CYPDF_Obj_Catalog* CYPDF_New_Catalog(CYPDF_BOOL indirect, CYPDF_UINT32 ID, CYPDF_Obj_Pages* pages);
 
 /**
  * @brief Writes obj to fp. Does nothing if fp == NULL or obj == NULL.

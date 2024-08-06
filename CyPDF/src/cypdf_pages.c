@@ -19,26 +19,22 @@ CYPDF_Obj_Pages* CYPDF_New_Pages(CYPDF_BOOL indirect, CYPDF_UINT32 ID, CYPDF_Obj
         pages->dict = CYPDF_New_Dict(CYPDF_FALSE, CYPDF_DEFAULT_OID);
         if (pages->dict) {
             /* The type of the PDF object that this dictionary describes. */
-            CYPDF_Obj_Name* type_key = CYPDF_New_Name(CYPDF_FALSE, CYPDF_DEFAULT_OID, CYPDF_TYPE_NAME);
-            CYPDF_Obj_Name* type_val = CYPDF_New_Name(CYPDF_FALSE, CYPDF_DEFAULT_OGEN, "Pages");
-            CYPDF_Dict_Append(pages->dict, type_key, type_val);
+            CYPDF_Obj_Name* type = CYPDF_New_Name(CYPDF_FALSE, CYPDF_DEFAULT_OGEN, "Pages");
+            CYPDF_Dict_Append(pages->dict, CYPDF_TYPE_NAME, type);
 
             if (parent) {
                 /* The page tree node that is the immediate parent of this page object. */
-                CYPDF_Obj_Name* parent_key = CYPDF_New_Name(CYPDF_FALSE, CYPDF_DEFAULT_OID, "Parent");
-                CYPDF_Dict_Append(pages->dict, parent_key, parent);
+                CYPDF_Dict_Append(pages->dict, "Parent", parent);
             }
 
             /* An array of indirect references to the immediate children of this node. 
             The children may be page objects or other page tree nodes. */
-            CYPDF_Obj_Name* kids_key = CYPDF_New_Name(CYPDF_FALSE, CYPDF_DEFAULT_OID, "Kids");
-            CYPDF_Obj_Array* kids_val = CYPDF_New_Array(CYPDF_FALSE, CYPDF_DEFAULT_OGEN, CYPDF_FREE_PAGE);
-            CYPDF_Dict_Append(pages->dict, kids_key, kids_val);
+            CYPDF_Obj_Array* kids = CYPDF_New_Array(CYPDF_FALSE, CYPDF_DEFAULT_OGEN, CYPDF_FREE_PAGE);
+            CYPDF_Dict_Append(pages->dict, "Kids", kids);
 
             /* The number of leaf nodes that are descendants of this node within the page tree. */
-            CYPDF_Obj_Name* count_key = CYPDF_New_Name(CYPDF_FALSE, CYPDF_DEFAULT_OID, "Count");
-            CYPDF_Obj_Number* count_val = CYPDF_New_Number(CYPDF_FALSE, CYPDF_DEFAULT_OID, 0);
-            CYPDF_Dict_Append(pages->dict, count_key, count_val);
+            CYPDF_Obj_Number* count = CYPDF_New_Number(CYPDF_FALSE, CYPDF_DEFAULT_OID, 0);
+            CYPDF_Dict_Append(pages->dict, "Count", count);
         }
     }
 

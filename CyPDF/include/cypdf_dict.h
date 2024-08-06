@@ -63,7 +63,7 @@ CYPDF_Obj_Dict* CYPDF_New_Dict(CYPDF_BOOL indirect, CYPDF_UINT32 ID);
  * @param key 
  * @param value 
  */
-void CYPDF_Dict_Append(CYPDF_Obj_Dict* dict, CYPDF_Obj_Name* key, CYPDF_Object* value);
+void CYPDF_Dict_Append(CYPDF_Obj_Dict* dict, const char* key_name, CYPDF_Object* value);
 
 /**
  * @brief Writes obj to fp. Does nothing if fp == NULL or obj == NULL.

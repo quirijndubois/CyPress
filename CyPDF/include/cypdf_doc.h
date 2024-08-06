@@ -6,6 +6,8 @@
 
 #include "cypdf_catalog.h"
 #include "cypdf_header.h"
+#include "cypdf_list.h"
+#include "cypdf_pages.h"
 #include "cypdf_types.h"
 
 
@@ -13,8 +15,10 @@
 /* CYPDF_doc struct */
 typedef struct _CYPDF_Doc {
     CYPDF_File_Header*      file_header;
+    CYPDF_Obj_Pages*        page_root;
     CYPDF_Obj_Catalog*      catalog;
     
+    CYPDF_List*             obj_list;
     CYPDF_UINT32            obj_count;
 } CYPDF_Doc;
 
@@ -25,6 +29,14 @@ typedef struct _CYPDF_Doc {
  * @return CYPDF_Doc* | Returns NULL if memory allocation fails.
  */
 CYPDF_Doc* CYPDF_New_Doc();
+
+/**
+ * @brief Add a new page to pdf_doc.
+ * 
+ * @param pdf_doc 
+ * @param size 
+ */
+void CYPDF_Add_Page(CYPDF_Doc* pdf_doc, CYPDF_Rect size);
 
 /**
  * @brief Writes pdf_doc to fp. Does nothing if fp == NULL or pdf_doc == NULL.

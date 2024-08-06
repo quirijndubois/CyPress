@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "cypdf_page.h"
+#include "cypdf_array.h"
 #include "cypdf_consts.h"
 #include "cypdf_dict.h"
 #include "cypdf_name.h"
@@ -10,19 +11,25 @@
 
 
 
-CYPDF_Obj_Page* CYPDF_New_Page(CYPDF_BOOL indirect, CYPDF_UINT32 ID, CYPDF_Obj_Pages* parent, CYPDF_Rect mediabox __attribute_maybe_unused__) {
+CYPDF_Obj_Page* CYPDF_New_Page(CYPDF_BOOL indirect, CYPDF_UINT32 ID, CYPDF_Obj_Pages* parent, CYPDF_Rect mediabox_rect __attribute_maybe_unused__) {
     CYPDF_Obj_Page* page = (CYPDF_Obj_Page*)CYPDF_New_Obj(indirect, CYPDF_OCLASS_PAGE, ID);
     if (page) {
         page->dict = CYPDF_New_Dict(CYPDF_FALSE, CYPDF_DEFAULT_OID);
         if (page->dict != NULL) {
             /* The type of the PDF object that this dictionary describes. */
-            CYPDF_Obj_Name* type_key = CYPDF_New_Name(CYPDF_FALSE, CYPDF_DEFAULT_OID, CYPDF_TYPE_NAME);
-            CYPDF_Obj_Name* type_val = CYPDF_New_Name(CYPDF_FALSE, CYPDF_DEFAULT_OID, "Page");
-            CYPDF_Dict_Append(page->dict, type_key, type_val);
+            CYPDF_Obj_Name* type = CYPDF_New_Name(CYPDF_FALSE, CYPDF_DEFAULT_OID, "Page");
+            CYPDF_Dict_Append(page->dict, CYPDF_TYPE_NAME, type);
 
             /* The page tree node that is the immediate parent of this page object. */
-            CYPDF_Obj_Name* parent_key = CYPDF_New_Name(CYPDF_FALSE, CYPDF_DEFAULT_OID, "Parent");
-            CYPDF_Dict_Append(page->dict, parent_key, parent);
+            CYPDF_Dict_Append(page->dict, "Parent", parent);
+
+            /* A dictionary containing any resources required by the page. */
+            CYPDF_Obj_Dict* resources = CYPDF_New_Dict(CYPDF_FALSE, CYPDF_DEFAULT_OID);
+            CYPDF_Dict_Append(page->dict, "Resources", resources);
+
+            /* A rectangle, expressed in default user space units, defining the boundaries of the physical medium on which the page is intended to be displayed or printed. */
+            CYPDF_Obj_Array* mediabox = CYPDF_Array_From_Rect(mediabox_rect, CYPDF_FALSE, CYPDF_DEFAULT_OID);
+            CYPDF_Dict_Append(page->dict, "MediaBox", mediabox);
         }
     }
 
