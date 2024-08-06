@@ -17,19 +17,18 @@
 /* CYPDF_Obj_Array struct */
 typedef struct _CYPDF_Obj_Array {
     CYPDF_Obj_Header        header;
-    CYPDF_List*             obj_list;
+    CYPDF_Obj_List*         list;
 } CYPDF_Obj_Array;
 
 
 /**
- * @brief Creates new CYPDF_Obj_Array. The obj_list gets initialized with free_func.
+ * @brief Creates new CYPDF_Obj_Array.
  * 
  * @param indirect 
  * @param ID 
- * @param free_func Free function pointer belonging to the type of the obj->obj_list elements.
  * @return CYPDF_Obj_Array* | Returns NULL if object creation fails.
  */
-CYPDF_Obj_Array* CYPDF_New_Array(CYPDF_BOOL indirect, CYPDF_UINT32 ID, CYPDF_Free_Func free_func);
+CYPDF_Obj_Array* CYPDF_New_Array(CYPDF_BOOL indirect, CYPDF_UINT32 ID);
 
 /**
  * @brief Creates new CYPDF_Obj_Array from a CYPDF_Rect.

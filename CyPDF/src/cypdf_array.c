@@ -10,26 +10,26 @@
 
 
 
-CYPDF_Obj_Array* CYPDF_New_Array(CYPDF_BOOL indirect, CYPDF_UINT32 ID, CYPDF_Free_Func free_func) {
+CYPDF_Obj_Array* CYPDF_New_Array(CYPDF_BOOL indirect, CYPDF_UINT32 ID) {
     CYPDF_Obj_Array* array = (CYPDF_Obj_Array*)CYPDF_New_Obj(indirect, CYPDF_OCLASS_ARRAY, ID);
     if (array) {
-        array->obj_list = CYPDF_New_List(free_func);
+        array->list = CYPDF_New_List();
     }
 
     return array;
 }
 
 CYPDF_Obj_Array* CYPDF_Array_From_Rect(CYPDF_Rect rect, CYPDF_BOOL indirect, CYPDF_UINT32 ID) {
-    CYPDF_Obj_Array* array = CYPDF_New_Array(indirect, ID, CYPDF_FREE_REAL);
+    CYPDF_Obj_Array* array = CYPDF_New_Array(indirect, ID);
     if (array != NULL) {
         CYPDF_Obj_Real* coord = CYPDF_New_Real(CYPDF_FALSE, CYPDF_DEFAULT_OID, rect.lowleftx);
-        CYPDF_List_Append(array->obj_list, coord);
+        CYPDF_List_Append(array->list, coord);
         coord = CYPDF_New_Real(CYPDF_FALSE, CYPDF_DEFAULT_OID, rect.lowlefty);
-        CYPDF_List_Append(array->obj_list, coord);
+        CYPDF_List_Append(array->list, coord);
         coord = CYPDF_New_Real(CYPDF_FALSE, CYPDF_DEFAULT_OID, rect.uprightx);
-        CYPDF_List_Append(array->obj_list, coord);
+        CYPDF_List_Append(array->list, coord);
         coord = CYPDF_New_Real(CYPDF_FALSE, CYPDF_DEFAULT_OID, rect.uprighty);
-        CYPDF_List_Append(array->obj_list, coord);
+        CYPDF_List_Append(array->list, coord);
     }
 
     return array;
@@ -41,12 +41,13 @@ void CYPDF_Write_Array(FILE* fp, CYPDF_Object* obj) {
     }
 
     CYPDF_Obj_Array* array = (CYPDF_Obj_Array*)obj;
-    CYPDF_List* list = array->obj_list;
+    CYPDF_Obj_List* list = array->list;
     fputc('[', fp);
-    for (size_t i = 0; i < list->element_count; ++i) {
-        CYPDF_Object* _obj = list->elements[i];
+    for (size_t i = 0; i < list->count; ++i) {
+        CYPDF_Object* _obj = list->objects[i];
         CYPDF_Write_Obj_Direct(fp, _obj);
-        if (i + 1 < list->element_count) {
+
+        if (i + 1 < list->count) {
             fputc(' ', fp);
         }
     }
@@ -56,7 +57,7 @@ void CYPDF_Write_Array(FILE* fp, CYPDF_Object* obj) {
 void CYPDF_Free_Array(CYPDF_Object* obj) {
     if (obj) {
         CYPDF_Obj_Array* array = (CYPDF_Obj_Array*)obj;
-        CYPDF_Free_List(array->obj_list);
+        CYPDF_Free_List(array->list);
         free(array);
     }
 }

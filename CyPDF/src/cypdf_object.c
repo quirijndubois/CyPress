@@ -83,7 +83,7 @@ CYPDF_Object* CYPDF_New_Obj(CYPDF_BOOL indirect, enum CYPDF_OCLASS class, CYPDF_
         obj->header.gen = CYPDF_DEFAULT_OGEN;
     }
 
-    return obj;
+    return (CYPDF_Object*)obj;
 }
 
 CYPDF_BOOL CYPDF_Obj_isDirect(CYPDF_Object* obj) {

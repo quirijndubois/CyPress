@@ -1,39 +1,34 @@
 #include <stdlib.h>
 
 #include "cypdf_list.h"
+#include "cypdf_consts.h"
+#include "cypdf_object.h"
 #include "cypdf_types.h"
 #include "cypdf_utils.h"
 
 
 
-CYPDF_List* CYPDF_New_List(void (*free_func)(void*)) {
-    CYPDF_List* list = CYPDF_scalloc(1, sizeof(CYPDF_List));
-    if (list != NULL) {
-        list->free_element = free_func;
-    }
+CYPDF_Obj_List* CYPDF_New_List() {
+    CYPDF_Obj_List* list = CYPDF_scalloc(1, sizeof(CYPDF_Obj_List));
 
     return list;
 }
 
-int CYPDF_List_Append(CYPDF_List* list, void* element) {
-    ++list->element_count;
-    list->elements = CYPDF_srealloc(list->elements, list->element_count * sizeof(void*));
-    if (list->elements != NULL) {
-        list->elements[list->element_count - 1] = element;
-        return 0;
+void CYPDF_List_Append(CYPDF_Obj_List* list, CYPDF_Object* obj) {
+    ++list->count;
+    list->objects = CYPDF_srealloc(list->objects, list->count * sizeof(CYPDF_Object*));
+    if (list->objects) {
+        list->objects[list->count - 1] = obj;
     } else {
-        --list->element_count;
-        return -1;
+        --list->count;
     }
 }
 
-void CYPDF_Free_List(CYPDF_List* list) {
-    if (list == NULL) {
-        return;
+void CYPDF_Free_List(CYPDF_Obj_List* list) {
+    if (list) {
+        for(size_t i = 0; i < list->count; ++i) {
+            CYPDF_Free_Obj(list->objects[i], CYPDF_FALSE);
+        }
+        free(list);
     }
-
-    for(size_t i = 0; i < list->element_count; ++i) {
-        list->free_element(list->elements[i]);
-    }
-    free(list);
 }

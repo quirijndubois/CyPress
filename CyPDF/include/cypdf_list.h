@@ -1,3 +1,8 @@
+/*
+The list structure is not an actual PDF object. 
+It is an array of CYPDF_Object pointers to represent, for instance, object arrays or object dictionaries.
+*/
+
 #ifndef CYPDF_LIST_H
 #define CYPDF_LIST_H
 
@@ -6,37 +11,34 @@
 
 
 
-/* CYPDF_List struct */
-typedef struct _CYPDF_List {
-    CYPDF_SIZE          element_count;      /* Number of objects in elements. */
-    void**              elements;           /* Array of void pointers likely to be objects or dictionary entries. */
-    CYPDF_Free_Func     free_element;       /* Free function corresponding to objects in elements. */
-} CYPDF_List;
+/* CYPDF_Obj_List struct */
+typedef struct _CYPDF_Obj_List {
+    CYPDF_SIZE              count;          /* Number of objects. */
+    CYPDF_Object**          objects;        /* Array of object pointers. */
+} CYPDF_Obj_List;
 
 
 /**
- * @brief Creates new CYPDF_List initialized with free_func.
+ * @brief Creates new CYPDF_List.
  * 
- * @param free_func Function to free the memory allocated to an element of the list.
  * @return CYPDF_List* | Returns NULL if memory allocation fails.
  */
-CYPDF_List* CYPDF_New_List(CYPDF_Free_Func free_func);
+CYPDF_Obj_List* CYPDF_New_List();
 
 /**
- * @brief Appends element to list->elements. Does nothing to list if memory allocation for element fails.
+ * @brief Appends element to obj to list. Does nothing to list if memory allocation fails.
  * 
  * @param list 
- * @param element 
- * @return int | Returns 0 on success and -1 on failure.
+ * @param obj 
  */
-int CYPDF_List_Append(CYPDF_List* list, void* element);
+void CYPDF_List_Append(CYPDF_Obj_List* list, CYPDF_Object* obj);
 
 /**
  * @brief Frees list. Does nothing if list is NULL.
  * 
  * @param list 
  */
-void CYPDF_Free_List(CYPDF_List* list);
+void CYPDF_Free_List(CYPDF_Obj_List* list);
 
 
 
