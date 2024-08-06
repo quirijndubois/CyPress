@@ -1,6 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 #include "cypdf_object.h"
 #include "cypdf_array.h"
