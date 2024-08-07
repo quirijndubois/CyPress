@@ -9,23 +9,42 @@
 
 
 /**
- * @brief Writes buffer followed by CYPDF_NEW_LINE to fp. Does nothing if buffer == NULL or fp == NULL.
+ * @brief Writes buffer followed by an end of line sequence to stream.
  * 
  * @param buffer 
  * @param element_size 
  * @param element_count 
- * @param fp Stream to be written to.
+ * @param stream 
+ * @return size_t | Returns the amount of bytes successfully written.
  */
-void CYPDF_fwrite_LF(const void* buffer, size_t element_size, size_t element_count, FILE* fp);
+size_t CYPDF_fwrite_NL(const void* buffer, size_t element_size, size_t element_count, FILE* stream);
 
 /**
- * @brief Writes src to fp in the form of a PDF comment. Does nothing if fp == NULL or src == NULL.
+ * @brief Writes an end of line sequence to stream.
+ * 
+ * @param stream 
+ * @return size_t | Returns the amount of bytes successfully written.
+ */
+size_t CYPDF_Write_NL(FILE* stream);
+
+/**
+ * @brief Behaves as fprintf but writes an end of line sequence at the end.
+ * 
+ * @param stream 
+ * @param format 
+ * @param ... 
+ * @return int | Returns the amount of bytes successfully written.
+ */
+int CYPDF_fprintf_NL(FILE* stream, const char* format, ...);
+
+/**
+ * @brief Writes src as a comment to fp.
  * 
  * @param fp 
  * @param src 
- * @param size 
+ * @return size_t | Returns the amount of bytes successfully written.
  */
-void CYPDF_Write_Comment(FILE* fp, CYPDF_BYTE* src, size_t size);
+size_t CYPDF_Write_Comment(FILE* fp, const char* src);
 
 
 

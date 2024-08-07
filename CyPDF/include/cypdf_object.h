@@ -17,6 +17,7 @@ enum CYPDF_OCLASS {
     CYPDF_OCLASS_DICT,
     CYPDF_OCLASS_STREAM,        /* A stream is always an indirect object. */
 
+    CYPDF_OCLASS_INFO,
     CYPDF_OCLASS_CATALOG,
     CYPDF_OCLASS_PAGE,
     CYPDF_OCLASS_PAGES,

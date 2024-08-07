@@ -9,9 +9,10 @@
 
 
 
-CYPDF_Obj_String* CPYDF_New_String(CYPDF_BOOL indirect, CYPDF_UINT32 ID, CYPDF_BYTE* value, CYPDF_SIZE valsize) {
+CYPDF_Obj_String* CPYDF_New_String(CYPDF_BOOL indirect, CYPDF_UINT32 ID, enum CYPDF_STRING_TYPE type, CYPDF_BYTE* value, CYPDF_SIZE valsize) {
     CYPDF_Obj_String* string = (CYPDF_Obj_String*)CYPDF_New_Obj(indirect, CYPDF_OCLASS_STRING, ID);
     if (string) {
+        string->type = type;
         string->value = CYPDF_smalloc(valsize);
 
         /* If memory allocation failed, string->value is not initialized. */
@@ -32,7 +33,20 @@ void CYPDF_Write_String(FILE* fp, CYPDF_Object* obj) {
     }
 
     CYPDF_Obj_String* string = (CYPDF_Obj_String*)obj;
-    fwrite(string->value, sizeof(string->value[0]), string->size, fp);
+
+    switch (string->type)
+    {
+    case CYPDF_STRTYPE_BYTE:
+        fputc('<', fp);
+        fwrite(string->value, sizeof(string->value[0]), string->size, fp);
+        fputc('>', fp);
+        break;
+    default:
+        fputc('(', fp);
+        fwrite(string->value, sizeof(string->value[0]), string->size, fp);
+        fputc(')', fp);
+        break;
+    }
 }
 
 void CYPDF_Free_String(CYPDF_Object* obj) {

@@ -10,6 +10,8 @@
 #include "cypdf_list.h"
 #include "cypdf_object.h"
 #include "cypdf_pages.h"
+#include "cypdf_print.h"
+#include "cypdf_trailer.h"
 #include "cypdf_utils.h"
 #include "cypdf_xref.h"
 
@@ -25,9 +27,14 @@ CYPDF_Doc* CYPDF_New_Doc() {
         pdf->page_tree = CYPDF_New_PNode(CYPDF_TRUE, pdf->curr_ID++, NULL);
         pdf->catalog = CYPDF_New_Catalog(CYPDF_TRUE, pdf->curr_ID++, pdf->page_tree);
 
+        char* creation_date = CYPDF_Get_Date();
+        pdf->info = CYPDF_New_Info(CYPDF_TRUE, pdf->curr_ID++, "Test", "Pieter", "Test", "CyPDF", "CyProducer", creation_date);
+        free(creation_date);
+
         pdf->obj_list = CYPDF_New_List();
         CYPDF_List_Append(pdf->obj_list, pdf->catalog);
         CYPDF_List_Append(pdf->obj_list, pdf->page_tree);
+        CYPDF_List_Append(pdf->obj_list, pdf->info);
     }
 
     return pdf;
@@ -38,7 +45,7 @@ void CYPDF_Append_Page(CYPDF_Doc* pdf) {
     CYPDF_List_Append(pdf->obj_list, page);
 }
 
-void CYPDF_Write_Doc(FILE* fp, CYPDF_Doc* pdf) {
+void CYPDF_Write_Doc(FILE* fp, CYPDF_Doc* pdf, const char* file_path) {
     if (fp == NULL || pdf == NULL) {
         return;
     }
@@ -51,8 +58,11 @@ void CYPDF_Write_Doc(FILE* fp, CYPDF_Doc* pdf) {
         pdf->offsets[i] = ftell(fp);
         CYPDF_Write_Obj_Def(fp, list->objects[i]);
     }
+    CYPDF_Write_NL(fp);
 
+    CYPDF_INT64 xref_offset = ftell(fp);
     CYPDF_Write_Xref(fp, pdf);
+    CYPDF_Write_Trailer(fp, pdf, file_path, xref_offset);
 }
 
 void CYPDF_Free_Doc(CYPDF_Doc* pdf) {

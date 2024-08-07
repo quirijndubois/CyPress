@@ -6,10 +6,12 @@
 #include "cypdf_catalog.h"
 #include "cypdf_consts.h"
 #include "cypdf_dict.h"
+#include "cypdf_info.h"
 #include "cypdf_name.h"
 #include "cypdf_null.h"
 #include "cypdf_number.h"
 #include "cypdf_pages.h"
+#include "cypdf_print.h"
 #include "cypdf_real.h"
 #include "cypdf_stream.h"
 #include "cypdf_string.h"
@@ -49,6 +51,9 @@ CYPDF_Object* CYPDF_New_Obj(CYPDF_BOOL indirect, enum CYPDF_OCLASS class, CYPDF_
         break;
     case CYPDF_OCLASS_STREAM:
         size = sizeof(CYPDF_Obj_Stream);
+        break;
+    case CYPDF_OCLASS_INFO:
+        size = sizeof(CYPDF_Obj_Info);
         break;
     case CYPDF_OCLASS_CATALOG:
         size = sizeof(CYPDF_Obj_Catalog);
@@ -158,6 +163,9 @@ CYPDF_Write_Func CYPDF_Obj_Get_Write(CYPDF_Object* obj) {
             break;
         case CYPDF_OCLASS_STREAM:
             break;
+        case CYPDF_OCLASS_INFO:
+            write_func = CYPDF_WRITE_INFO;
+            break;
         case CYPDF_OCLASS_CATALOG:
             write_func = CYPDF_WRITE_CATALOG;
             break;
@@ -209,6 +217,9 @@ CYPDF_Free_Func CYPDF_Obj_Get_Free(CYPDF_Object* obj) {
             break;
         case CYPDF_OCLASS_STREAM:
             break;
+        case CYPDF_OCLASS_INFO:
+            free_func = CYPDF_FREE_INFO;
+            break;
         case CYPDF_OCLASS_CATALOG:
             free_func = CYPDF_FREE_CATALOG;
             break;
@@ -244,9 +255,11 @@ void CYPDF_Write_Obj_Def(FILE* fp, CYPDF_Object* obj) {
     /* If the object itself is not indirect, it cannot be written indirectly. 
     This is because it's ID and gen would be invalid. */
     if (!CYPDF_Obj_isDirect(obj)) {
-        fprintf(fp, "\n%u %hu obj\n", CYPDF_Obj_Get_ID(obj), CYPDF_Obj_Get_Gen(obj));
+        CYPDF_Write_NL(fp);
+        CYPDF_fprintf_NL(fp, "%u %hu obj", CYPDF_Obj_Get_ID(obj), CYPDF_Obj_Get_Gen(obj));
         CYPDF_Write_Obj_Direct(fp, obj);
-        fprintf(fp, "\nendobj\n");
+        CYPDF_Write_NL(fp);
+        CYPDF_fprintf_NL(fp, "endobj");
     }
 }
 

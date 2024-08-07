@@ -18,7 +18,7 @@
 
 
 /* CYPDF new line string */
-#define CYPDF_NEW_LINE              "\x0D\x0A"  /* Carriage return followed by line feed */
+#define CYPDF_NEW_LINE              "\x0D\x0A"  /* Carriage return followed by line feed. */
 
 
 /* CYPDF boolean values */

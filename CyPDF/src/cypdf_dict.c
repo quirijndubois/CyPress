@@ -6,6 +6,7 @@
 #include "cypdf_list.h"
 #include "cypdf_name.h"
 #include "cypdf_object.h"
+#include "cypdf_print.h"
 #include "cypdf_types.h"
 #include "cypdf_utils.h"
 
@@ -53,7 +54,7 @@ void CYPDF_Write_Dict(FILE* fp, CYPDF_Object* obj) {
             CYPDF_Write_Obj_Ref(fp, values->objects[i]);
         }
         
-        fprintf(fp, "%s", CYPDF_NEW_LINE);
+        CYPDF_Write_NL(fp);
     }
 
     fprintf(fp, ">>");

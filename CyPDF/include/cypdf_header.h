@@ -13,9 +13,9 @@
 
 /* CYPDF_File_Header struct */
 typedef struct _CYPDF_File_Header {
-    CYPDF_BYTE*         version;
+    char*               version;
     CYPDF_SIZE          version_size;
-    CYPDF_BYTE*         hival_bytes;
+    char*               hival_bytes;
     CYPDF_SIZE          hival_bytes_size;
 } CYPDF_File_Header;
 

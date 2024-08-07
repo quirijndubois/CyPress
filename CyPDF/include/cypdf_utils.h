@@ -12,15 +12,6 @@
 
 
 /**
- * @brief Copies characters from src as bytes to dest.
- * 
- * @param src 
- * @param dest 
- * @param size 
- */
-void CYPDF_StrToBytes(const char* src, CYPDF_BYTE* dest, size_t size);
-
-/**
  * @brief Safely allocates size bytes of memory. Prints an error message if memory allocation fails.
  * 
  * @param size 
@@ -45,6 +36,13 @@ void* CYPDF_scalloc(size_t element_count, size_t element_size);
  * @return void* | Returns NULL if memory allocation fails.
  */
 void* CYPDF_srealloc(void* ptr, size_t size);
+
+/**
+ * @brief Gets current date and time in human readable format required by PDF.
+ * 
+ * @return char* 
+ */
+char* CYPDF_Get_Date();
 
 
 
