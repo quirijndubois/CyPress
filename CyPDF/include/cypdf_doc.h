@@ -20,6 +20,8 @@ typedef struct _CYPDF_Doc {
     
     CYPDF_Obj_List*         obj_list;
     CYPDF_UINT32            curr_ID;
+
+    CYPDF_INT64*            offsets; /* Byte offsets of the objects in obj_list. */
 } CYPDF_Doc;
 
 
@@ -31,26 +33,26 @@ typedef struct _CYPDF_Doc {
 CYPDF_Doc* CYPDF_New_Doc();
 
 /**
- * @brief Append a new page to pdf_doc.
+ * @brief Append a new page to pdf.
  * 
- * @param pdf_doc 
+ * @param pdf 
  */
-void CYPDF_Append_Page(CYPDF_Doc* pdf_doc);
+void CYPDF_Append_Page(CYPDF_Doc* pdf);
 
 /**
- * @brief Writes pdf_doc to fp. Does nothing if fp == NULL or pdf_doc == NULL.
+ * @brief Writes pdf to fp. Does nothing if fp == NULL or pdf == NULL.
  * 
  * @param fp 
- * @param pdf_doc 
+ * @param pdf 
  */
-void CYPDF_Write_Doc(FILE* fp, CYPDF_Doc* pdf_doc);
+void CYPDF_Write_Doc(FILE* fp, CYPDF_Doc* pdf);
 
 /**
- * @brief Frees pdf_doc. Does nothing if pdf_doc is NULL.
+ * @brief Frees pdf. Does nothing if pdf is NULL.
  * 
- * @param pdf_doc 
+ * @param pdf 
  */
-void CYPDF_Free_Doc(CYPDF_Doc* pdf_doc);
+void CYPDF_Free_Doc(CYPDF_Doc* pdf);
 
 
 

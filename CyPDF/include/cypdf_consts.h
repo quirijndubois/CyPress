@@ -28,6 +28,7 @@
 
 /* CYPDF limits */
 #define CYPDF_INDIRECT_OBJ_MAX      8388607     /* 2^23 - 1 */
+#define CYPDF_OGEN_MAX              65535       /* 2^16 - 1 */
 
 
 /* Page sizes (UU: User Unit) */
