@@ -56,5 +56,5 @@ void CYPDF_Write_Trailer(FILE* fp, CYPDF_Doc* pdf, const char* file_path, CYPDF_
 
     CYPDF_fprintf_NL(fp, "startxref");
     CYPDF_fprintf_NL(fp, "%lld", xref_offset);
-    CYPDF_fprintf_NL(fp, "%%%%EOF");
+    fprintf(fp, "%%%%EOF");
 }
