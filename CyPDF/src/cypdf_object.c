@@ -255,11 +255,11 @@ void CYPDF_Write_Obj_Def(FILE* fp, CYPDF_Object* obj) {
     /* If the object itself is not indirect, it cannot be written indirectly. 
     This is because it's ID and gen would be invalid. */
     if (!CYPDF_Obj_isDirect(obj)) {
-        CYPDF_Write_NL(fp);
         CYPDF_fprintf_NL(fp, "%u %hu obj", CYPDF_Obj_Get_ID(obj), CYPDF_Obj_Get_Gen(obj));
         CYPDF_Write_Obj_Direct(fp, obj);
         CYPDF_Write_NL(fp);
         CYPDF_fprintf_NL(fp, "endobj");
+        CYPDF_Write_NL(fp);
     }
 }
 

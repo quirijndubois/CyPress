@@ -58,7 +58,6 @@ void CYPDF_Write_Doc(FILE* fp, CYPDF_Doc* pdf, const char* file_path) {
         pdf->offsets[i] = ftell(fp);
         CYPDF_Write_Obj_Def(fp, list->objects[i]);
     }
-    CYPDF_Write_NL(fp);
 
     CYPDF_INT64 xref_offset = ftell(fp);
     CYPDF_Write_Xref(fp, pdf);
