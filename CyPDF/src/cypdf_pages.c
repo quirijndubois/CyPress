@@ -33,7 +33,7 @@ CYPDF_Obj_Page* CYPDF_New_Page(CYPDF_BOOL indirect, CYPDF_UINT32 ID, CYPDF_Obj_P
 }
 
 CYPDF_Obj_PNode* CYPDF_New_PNode(CYPDF_BOOL indirect, CYPDF_UINT32 ID, CYPDF_Obj_PNode* parent) {
-    CYPDF_Obj_PNode* page_node = (CYPDF_Obj_PNode*)CYPDF_New_Obj(indirect, CYPDF_OCLASS_PAGES, ID);
+    CYPDF_Obj_PNode* page_node = (CYPDF_Obj_PNode*)CYPDF_New_Obj(indirect, CYPDF_OCLASS_PNODE, ID);
     if (page_node) {
         page_node->parent = parent;
         page_node->kids = CYPDF_New_Array(CYPDF_FALSE, CYPDF_DEFAULT_OID);

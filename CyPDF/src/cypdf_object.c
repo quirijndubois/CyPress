@@ -61,7 +61,7 @@ CYPDF_Object* CYPDF_New_Obj(CYPDF_BOOL indirect, enum CYPDF_OCLASS class, CYPDF_
     case CYPDF_OCLASS_PAGE:
         size = sizeof(CYPDF_Obj_Page);
         break;
-    case CYPDF_OCLASS_PAGES:
+    case CYPDF_OCLASS_PNODE:
         size = sizeof(CYPDF_Obj_PNode);
         break;
     default:
@@ -172,7 +172,7 @@ CYPDF_Write_Func CYPDF_Obj_Get_Write(CYPDF_Object* obj) {
         case CYPDF_OCLASS_PAGE:
             write_func = CYPDF_WRITE_PAGE;
             break;
-        case CYPDF_OCLASS_PAGES:
+        case CYPDF_OCLASS_PNODE:
             write_func = CYPDF_WRITE_PNODE;
             break;
         default:
@@ -226,7 +226,7 @@ CYPDF_Free_Func CYPDF_Obj_Get_Free(CYPDF_Object* obj) {
         case CYPDF_OCLASS_PAGE:
             free_func = CYPDF_FREE_PAGE;
             break;
-        case CYPDF_OCLASS_PAGES:
+        case CYPDF_OCLASS_PNODE:
             free_func = CYPDF_FREE_PNODE;
             break;
         default:
@@ -269,7 +269,8 @@ void CYPDF_Write_Obj_Ref(FILE* fp, CYPDF_Object* obj) {
     }
 
     /* If the object itself is not indirect, it cannot be written indirectly. 
-    This is because it's ID and gen would be invalid. */
+    This is because it's onj_num and gen_num would be invalid. 
+    An object that is indirect should never be written indirectly. */
     if (!CYPDF_Obj_isDirect(obj)) {
         fprintf(fp, "%u %hu R", CYPDF_Obj_Get_ID(obj), CYPDF_Obj_Get_Gen(obj));
     }
