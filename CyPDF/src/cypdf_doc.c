@@ -24,7 +24,7 @@ CYPDF_Doc* CYPDF_New_Doc() {
         pdf->curr_ID = 1;
         pdf->offsets = NULL;
 
-        pdf->page_tree = CYPDF_New_PNode(CYPDF_TRUE, pdf->curr_ID++, NULL);
+        pdf->page_tree = CYPDF_New_PNode(CYPDF_TRUE, pdf->curr_ID++, NULL);                 /* Page root. */
         pdf->catalog = CYPDF_New_Catalog(CYPDF_TRUE, pdf->curr_ID++, pdf->page_tree);
 
         char* creation_date = CYPDF_Get_Date();
