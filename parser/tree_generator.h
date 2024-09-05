@@ -1,3 +1,6 @@
+#include <stddef.h>
+#include <string.h>
+
 #define MAX_TOKENS 16384
 
 #define SINGLE_DELIMITERS "\\"

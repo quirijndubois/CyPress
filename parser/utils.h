@@ -1,3 +1,6 @@
+#include <stddef.h>
+#include <stdio.h>
+
 void print_tokens(char** tokens){
     int i = 0;
     while (tokens[i+1]!=NULL) {
