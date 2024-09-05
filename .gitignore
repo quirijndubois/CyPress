@@ -2,3 +2,6 @@ LICENSE
 *.out
 *.exe
 .vscode
+
+build/
+.cache
