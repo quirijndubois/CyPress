@@ -1,4 +1,5 @@
 #include "tree_generator.h"
+#include <stdbool.h>
 
 int get_tokens_length(char** tokens){
     int i = 0;
