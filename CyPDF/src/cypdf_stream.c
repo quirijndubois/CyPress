@@ -16,7 +16,7 @@ CYPDF_Obj_Stream* CYPDF_New_Stream(CYPDF_BOOL indirect, CYPDF_UINT32 ID, CYPDF_B
     stream->dict = CYPDF_New_Obj(CYPDF_FALSE, CYPDF_OCLASS_DICT, CYPDF_DEFAULT_OID);
 
     stream->val = CYPDF_smalloc(val_size * sizeof(CYPDF_BYTE));
-    memcpy(stream->val, val, val_size);
+    memcpy(stream->val, &val, val_size);
 
     return stream;
 }
