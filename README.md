@@ -28,6 +28,9 @@ By: Quirijn du Bois & Pieter te Brake      .*+++++.
 
 🌲🌲🌲🌲 Custom 🤓 scientific 🧬 text 📚 language compiler 💻 written in C revolutionizing "LaTeX" 🤮. 🌲🌲🌲🌲
 
+Also see:
+- [CyPDF](https://github.com/pieterteb/CyPDF)
+- [CyDE](https://github.com/quirijndubois/CyDE)
 
 ## Goals (long term)
 
