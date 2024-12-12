@@ -32,6 +32,26 @@ Also see:
 - [CyPDF](https://github.com/pieterteb/CyPDF)
 - [CyDE](https://github.com/quirijndubois/CyDE)
 
+## How to build
+
+-cd into the CyPress folder
+-Add and cd into a build directory 
+```bash 
+mkdir build && cd build
+```
+-Run cmake using CMakeLists.txt
+```bash 
+cmake ..
+```
+-Build using make
+```bash
+make
+```
+-Execute
+```bash
+./CyPress YOUR_FILE
+```
+
 ## Goals (long term)
 
 - Scientific document typesetting (Similar to LaTeX)
