@@ -34,20 +34,20 @@ Also see:
 
 ## How to build
 
--cd into the CyPress folder
--Add and cd into a build directory 
+cd into the CyPress folder
+Add and cd into a build directory 
 ```bash 
 mkdir build && cd build
 ```
--Run cmake using CMakeLists.txt
+Run cmake using CMakeLists.txt
 ```bash 
 cmake ..
 ```
--Build using make
+Build using make
 ```bash
 make
 ```
--Execute
+Execute
 ```bash
 ./CyPress YOUR_FILE
 ```
