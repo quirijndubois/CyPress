@@ -8,13 +8,13 @@
 #define CLOSING_DELIMITERS "})"
 #define DOUBLE_DELIMITERS ";\"\'"
 
-int get_tokens_length(char** tokens);
+int get_tokens_length(char **tokens);
 
 // This function returns all indices of tokens within the first layer
-void find_first_layer_indices(char** tokens,int* indeces_array,int start_index, int ending_index);
+void find_first_layer_indices(char **tokens, int *indeces_array, int start_index, int ending_index);
 
-int get_layer_end(char** tokens, int starting_index);
+int get_next_token_in_layer(char **tokens, int starting_index);
 
-void recursive_layer_generator(char **tokens,int start_index, int ending_index);
+void recursive_layer_generator(char **tokens, int start_index, int ending_index);
 
-void generate_tree(char** tokens);
+void generate_tree(char **tokens);

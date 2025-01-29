@@ -47,6 +47,7 @@ void parse(char *path)
 
     tokenize_file(path, tokens);
     combine_tokens(tokens, combined_tokens);
-    print_tokens(combined_tokens);
-    generate_tree(tokens);
+    print_tokens_index(combined_tokens);
+    printf("\n");
+    generate_tree(combined_tokens);
 }
